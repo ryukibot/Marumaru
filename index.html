@@ -95,6 +95,67 @@ button[disabled]{cursor:default}
 .verdict.bad{border-color:var(--bad)}
 @media (prefers-reduced-motion:no-preference){.chip i.live{animation:blink 1.2s steps(2) infinite}}
 @keyframes blink{50%{opacity:.25}}
+#dbg{margin-top:auto;border:1px solid var(--line);background:var(--panel);padding:8px 12px;font-size:12.5px;color:var(--dim)}
+#dbg summary{cursor:pointer;min-height:32px;display:flex;align-items:center}
+#log{margin:6px 0 0;font:500 12px/1.5 var(--f-mono);white-space:pre-wrap;word-break:break-all;color:var(--fg);-webkit-user-select:text;user-select:text;max-height:260px;overflow:auto}
+#notice{display:flex;flex-direction:column;gap:6px;position:sticky;top:0;z-index:5}
+.nt{padding:10px 14px;border:1px solid var(--line);background:var(--panel-2);font-weight:700;font-size:14px}
+.nt.bad{border-color:var(--bad);color:var(--bad);background:#2a1816}
+.nt.good{border-color:var(--ok);color:var(--ok)}
+.nt.warn{border-color:var(--warn);color:var(--warn)}
+/* ゲーム本編の画面 */
+.gm{display:flex;flex-direction:column;gap:14px;min-width:0}
+.hrow{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.hrow h2{margin:2px 0 0;font:900 28px/1.1 var(--f-display);letter-spacing:.06em}
+.hbox{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;min-width:90px}
+.hbox+.hbox{margin-left:0}
+.hbox small{font-size:11px;color:var(--dim);letter-spacing:.14em}
+.hbox b{font-size:26px;line-height:1.1}
+.gauge{height:10px;background:#0e1214;position:relative}
+.gauge i{position:absolute;inset:0 auto 0 0;background:var(--inf)}
+.surv{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.sv{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);background:var(--panel-2);border-left:4px solid var(--pc);min-width:0}
+.sv.off{opacity:.45}
+.sv span:last-child{display:flex;flex-direction:column;min-width:0}
+.sv b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sv small{font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tl{display:grid;grid-template-columns:auto auto;grid-template-areas:"b n" "b c";gap:0 10px;align-items:center;min-height:54px;padding:6px 14px;border:1px solid var(--line);background:var(--panel-2)}
+.tl b{grid-area:b;width:32px;height:32px;display:grid;place-items:center;background:var(--tc);color:var(--ink);font:900 17px var(--f-body)}
+.tl span{grid-area:n;font-weight:700;font-size:14px}
+.tl small{grid-area:c;font-size:12px;color:var(--dim)}
+.tl.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.tl[disabled]{opacity:.45}
+.cvwrap{overflow:auto;border:1px solid var(--line);background:#0d1213;max-width:100%}
+.cvwrap canvas{display:block;touch-action:manipulation}
+.shop{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:760px){.shop{grid-template-columns:minmax(0,1fr)}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabb{min-height:44px;padding:0 16px;border:1px solid var(--line);background:var(--panel-2);font-weight:900;letter-spacing:.06em}
+.tabb.on{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.ilist{display:flex;flex-direction:column;gap:8px;max-height:62vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.irow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:10px 12px;border:1px solid var(--line);background:var(--panel-2)}
+.im{display:flex;flex-direction:column;gap:3px;min-width:0}
+.im small{color:var(--dim);font-size:12px}
+.stats{display:flex;flex-wrap:wrap;gap:4px}
+.stats .chip{min-height:22px;font-size:11.5px}
+.ib{display:flex;flex-direction:column;align-items:flex-end;gap:4px;justify-content:center}
+.ib small{color:var(--dim);font-size:11.5px}
+.price{font-size:20px;font-weight:600}
+.eqg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.eq{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border:1px solid var(--line);background:var(--panel-2);min-width:0}
+.eq.vac{opacity:.6}
+.eq small{font-size:11px;color:var(--dim);letter-spacing:.1em}
+.eq b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eq .btn{margin-top:4px;min-height:36px;font-size:12px;padding:0 10px}
+.own{display:flex;flex-direction:column;gap:6px;max-height:34vh;overflow:auto}
+.orow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border:1px solid var(--line);background:var(--panel-2);font-size:14px}
+.obt{display:flex;gap:6px}
+.obt .btn{min-height:36px;font-size:12px;padding:0 10px}
+.kv2{display:flex;flex-direction:column;gap:6px}
+.kvrow{display:flex;justify-content:space-between;gap:12px;padding:6px 10px;border:1px solid var(--line);background:var(--panel-2);font-size:14px}
+.kvrow span{color:var(--dim)}
+.empty{padding:14px;border:1px dashed var(--line);color:var(--dim);font-size:14px}
 </style>
 </head>
 <body>
@@ -104,9 +165,878 @@ button[disabled]{cursor:default}
     <span class="sp"></span>
     <span id="stat" class="chip"><i></i>通信 未接続</span>
   </header>
+  <div id="notice"></div>
   <main id="main"></main>
+  <details id="dbg" open><summary>通信ログ(つながらないとき、ここの内容を教えてください)</summary><pre id="log"></pre></details>
 </div>
 
+<script>
+(function(){
+/* 協力ゲームの研究施設マップ生成を、そのまま取り出したもの(階数は3階に固定) */
+var CATALOG=[{"id":"bulldog","name":"ブルドッグ","cat":"sub","kind":"リボルバー","w":1.2,"dmg":70,"rof":90,"range":25,"acc":80,"mag":6,"stack":1,"size":[2,2]},{"id":"knife","name":"ナイフ","cat":"melee","kind":"近接","w":0.3,"dmg":25,"rof":150,"range":2,"acc":95,"mag":0,"stack":1,"size":[1,2]},{"id":"stunbaton","name":"電撃バトン","cat":"melee","kind":"近接","w":1,"dmg":18,"rof":100,"range":2,"acc":90,"mag":0,"stack":1,"size":[3,1]},{"id":"bat","name":"バット","cat":"melee","kind":"近接","w":0.9,"dmg":22,"rof":110,"range":2.1,"acc":90,"mag":0,"stack":1,"size":[3,1]},{"id":"handaxe","name":"ハンドアクス","cat":"melee","kind":"近接","w":1.1,"dmg":42,"rof":80,"range":2.2,"acc":85,"mag":0,"stack":1,"size":[3,2]},{"id":"sledge","name":"スレッジハンマー","cat":"melee","kind":"近接(両手)","w":4.5,"dmg":88,"rof":40,"range":2.7,"acc":70,"mag":0,"stack":1,"size":[3,2]},{"id":"fabric","name":"布地","cat":"material","kind":"素材","w":0.05,"note":"ヘルメット・防具・バッグを分解して手に入る、衣類専用の素材。","stack":99,"size":[1,1]},{"id":"parts","name":"部品","cat":"material","kind":"素材","w":0.05,"note":"武器を分解して手に入る素材。","stack":99,"size":[1,1]},{"id":"ammo357","name":"リボルバー弾","cat":"ammo","kind":"弾薬","w":0.03,"note":"ブルドッグ用の弾。一発の威力と押し返す力が大きい。同じ弾は重ねて持てる。","stack":30,"size":[1,1]},{"id":"ammo556","name":"ライフル弾","cat":"ammo","kind":"弾薬","w":0.02,"note":"ブロンコ・バイソン・ハンター用の弾。","stack":60,"size":[1,1]},{"id":"ammo12","name":"散弾","cat":"ammo","kind":"弾薬","w":0.04,"note":"ジャッカル・ブリーチャー用の弾。近いほど威力が高い。","stack":24,"size":[1,1]},{"id":"ammo9","name":"拳銃弾","cat":"ammo","kind":"弾薬","w":0.01,"note":"スパロー・ホーネット用の弾。","stack":60,"size":[1,1]},{"id":"objective","name":"目標物資","cat":"tool","kind":"作戦専用","w":0.8,"note":"作戦の目標。マップの奥に置かれている。これを持って脱出口から出ないと作戦成功にならない。作戦が終わると消える。","stack":1,"missionOnly":true,"size":[2,1]},{"id":"key1","name":"カードキー Lv1","cat":"tool","kind":"作戦専用","w":0.02,"note":"作戦中しか使えない。Lv1以下の電子ロックの扉を開ける。作戦が終わると消える。","stack":1,"keyLv":1,"missionOnly":true,"size":[1,1]},{"id":"key2","name":"カードキー Lv2","cat":"tool","kind":"作戦専用","w":0.02,"note":"作戦中しか使えない。Lv2以下の電子ロックの扉を開ける。作戦が終わると消える。","stack":1,"keyLv":2,"missionOnly":true,"size":[1,1]},{"id":"key3","name":"カードキー Lv3","cat":"tool","kind":"作戦専用","w":0.02,"note":"作戦中しか使えない。Lv3以下の電子ロックの扉を開ける。作戦が終わると消える。","stack":1,"keyLv":3,"missionOnly":true,"size":[1,1]},{"id":"helmet1","name":"軽量ヘルメット","cat":"head","kind":"ヘルメット","w":0.9,"armor":6,"note":"軽くて動きやすい。","stack":1,"size":[2,2]},{"id":"helmet2","name":"戦闘ヘルメット","cat":"head","kind":"ヘルメット","w":1.4,"armor":10,"note":"軍用の硬いヘルメット。","stack":1,"size":[2,2]},{"id":"nvg1","name":"暗視ゴーグル 単眼 Lv1","cat":"head","kind":"暗視装置","w":0.5,"armor":2,"note":"停電中、周囲約4.5マスが見える(全方向)。レンズは片目だけ。防御は低い。","stack":1,"nv":4.5,"size":[2,1]},{"id":"nvg2","name":"暗視ゴーグル 双眼 Lv2","cat":"head","kind":"暗視装置","w":0.8,"armor":3,"note":"停電中、周囲約6マスが見える(全方向)。両目のレンズで、単眼より見通しが利く。","stack":1,"nv":6,"size":[2,1]},{"id":"nvg3","name":"暗視ゴーグル 複眼 Lv3","cat":"head","kind":"暗視装置","w":1.1,"armor":4,"note":"停電中、周囲約8.5マスまで見渡せる(全方向)。複数のレンズを重ねた、軍の最新型。","stack":1,"nv":8.5,"size":[2,1]},{"id":"weldmask","name":"溶接マスク","cat":"head","kind":"ヘルメット","w":1.6,"armor":12,"note":"火花と閃光を防ぐ厚いマスク。防御が高く、閃光手榴弾のまぶしさも防ぐ。代わりに視界が少し狭くなる。","stack":1,"size":[2,2]},{"id":"gasmask","name":"ガスマスク","cat":"head","kind":"ヘルメット","w":0.9,"armor":4,"note":"ガスや煙(パイプ・ガス手榴弾・ガス漏れ)から身を守る。吸う毒を大きく減らす。防御は低い。","stack":1,"gasRes":0.75,"size":[2,2]},{"id":"helmet3","name":"重装ヘルメット","cat":"head","kind":"ヘルメット","w":2,"armor":14,"note":"顔まで覆う重装の兜。重い。","stack":1,"size":[2,2]},{"id":"vest1","name":"防刃ベスト","cat":"body","kind":"ボディアーマー","w":2.6,"armor":10,"note":"薄手のベスト。","stack":1,"size":[2,2]},{"id":"hazmat","name":"防護服","cat":"body","kind":"ボディアーマー","w":2.8,"armor":10,"note":"ガスと煙を半分に減らす耐化学の服。ガスマスクと重ねると、ほぼ無害になる。重い。","stack":1,"gasRes":0.5,"size":[2,3]},{"id":"vest2","name":"防弾ベスト","cat":"body","kind":"ボディアーマー","w":4.6,"armor":18,"note":"軍用の防弾ベスト。","stack":1,"size":[2,3]},{"id":"vest3","name":"重装アーマー","cat":"body","kind":"ボディアーマー","w":7.4,"armor":26,"note":"プレート入りの重装アーマー。かなり重い。","stack":1,"size":[3,3]},{"id":"flashlight","name":"懐中電灯","cat":"tool","kind":"道具","w":0.3,"note":"持ち物に入れておくと、停電中でも構えた向きだけは遠くまで見える。","stack":1,"size":[1,2]},{"id":"medkit","name":"医療キット","cat":"gadget","kind":"回復","w":0.9,"note":"使うと体力を60回復する。","stack":3,"size":[2,1]},{"id":"stim","name":"即時回復薬","cat":"gadget","kind":"回復","w":0.4,"note":"使うとほぼ一瞬で体力を45回復する。動揺していても遅くならない。代わりに、メンタルの最大値が少し減る(休んでも戻らない)。メンタルの最大値が下がりきっていると使えない。","stack":3,"size":[1,1]},{"id":"tranq","name":"精神安定剤","cat":"gadget","kind":"回復","w":0.3,"note":"飲むと時間をかけて、減ってしまったメンタルの最大値を35%分回復する。動揺していても時間は変わらない。研究施設でしか見つからない。体力は回復しない。使用中は動きが鈍る。","stack":3,"size":[1,1]},{"id":"toolbox","name":"工具箱","cat":"tool","kind":"道具","w":1.5,"note":"持っているだけで使える(支給品には入れられない)。鍵つきの扉(カードキーではないもの)に体を押し当てると、ボルトカッターで鎖を切って、普通の扉のように壊して通れる。何度でも使える。","stack":1,"size":[2,1]},{"id":"ration","name":"保存食","cat":"gadget","kind":"回復","w":0.3,"note":"食べると、減ってしまったメンタル(今の値)を少し回復する。メンタルの上限は戻らない。地下シェルターで見つかる。","stack":4,"size":[1,1]},{"id":"bandage2","name":"包帯(上級)","cat":"gadget","kind":"回復","w":0.15,"note":"使うと体力を40回復する。低級の包帯より効きが良く、医療キットよりは早く済む。病院で見つかる。","stack":4,"size":[1,1]},{"id":"bandage","name":"包帯(低級)","cat":"gadget","kind":"回復","w":0.1,"note":"使うと体力を25回復する。出撃中、使うボタンで使える。","stack":5,"size":[1,1]},{"id":"revive","name":"蘇生キット","cat":"gadget","kind":"蘇生","w":1,"note":"倒れた時に使うと、自己蘇生して作戦を続けられる(倒れている間、射撃ボタンの位置に出る「自己蘇生」から)。全滅しても、持っていれば自己蘇生か自決かを選べる。作戦中のみ。","stack":2,"noSlot":true,"size":[2,1]},{"id":"frag","name":"破片手榴弾","cat":"gadget","kind":"攻撃","w":1.2,"note":"長押しの持替ホイールで構え、射撃ボタンをドラッグして離すと投げる。壁で跳ね返り、ドアの向こう側へ抜ける。ドアが壊れるのは爆発した時だけ。爆風は味方にも当たる。","stack":4,"size":[1,1]},{"id":"flare","name":"信号弾","cat":"gadget","kind":"妨害","w":0.4,"note":"長押しの持替ホイールで構え、射撃ボタンで撃つ。当たった所が赤く光り、周りのゾンビを怯ませて火のスリップダメージを与える。煙(ガス)の中に撃ち込むと、引火して範囲・ダメージ・怯みが大きくなる。撃つと、着弾点の方角が味方に伝わる。味方には当たらない。","stack":4,"size":[1,1]},{"id":"flash","name":"閃光手榴弾","cat":"gadget","kind":"妨害","w":0.9,"note":"投げた先で炸裂し、敵に中程度のダメージと長い怯みを与える。近くの味方もまぶしい。投げ方は手榴弾と同じ。","stack":4,"size":[1,1]},{"id":"gasg","name":"ガス手榴弾","cat":"gadget","kind":"妨害","w":1,"note":"研究施設でしか見つからない。投げた先でガスの煙を噴き出し、ゾンビにダメージを与え、変異種の死亡爆発を消し、敵も味方も視界を遮る。煙の中に入ったゾンビと、煙に入った相手を追っていたゾンビは見失う。投げ方は手榴弾と同じ。","stack":4,"size":[1,1]},{"id":"ammobox","name":"弾薬箱","cat":"gadget","kind":"補給","w":1.6,"note":"使うと足元に設置する。近くで装填すると、自分の弾を使わずに装填できる(8回で消滅)。持ち物の「付近」から拾い直せる。","stack":1,"size":[2,2]},{"id":"hunter","name":"ハンター","cat":"main","kind":"猟銃","w":3.4,"dmg":40,"rof":110,"range":55,"acc":84,"mag":5,"stack":1,"size":[3,2]},{"id":"bison","name":"バイソン","cat":"main","kind":"突撃銃","w":4.2,"dmg":52,"rof":380,"range":50,"acc":76,"mag":24,"stack":1,"size":[3,2]},{"id":"bronco","name":"ブロンコ","cat":"main","kind":"突撃銃","w":3.6,"dmg":34,"rof":600,"range":45,"acc":74,"mag":30,"stack":1,"size":[3,2]},{"id":"sparrow","name":"スパロー","cat":"sub","kind":"拳銃","w":0.9,"dmg":24,"rof":330,"range":15,"acc":68,"mag":15,"stack":1,"size":[2,2]},{"id":"jackal","name":"ジャッカル","cat":"sub","kind":"散弾銃","w":1.7,"dmg":16,"rof":75,"range":8,"acc":55,"mag":2,"stack":1,"size":[3,2]},{"id":"bag1","name":"ウエストポーチ","cat":"bag","kind":"バッグ","w":0.3,"note":"腰に付ける小さなポーチ。軽くて、少しだけ入る。","stack":1,"size":[2,1],"rows":1,"cap":0,"stam":0.03},{"id":"bag2","name":"ランニングパック","cat":"bag","kind":"バッグ","w":0.6,"note":"体に密着する軽量パック。入る量は少ないが、スタミナ消費をかなり抑える。","stack":1,"size":[2,2],"rows":1,"cap":0,"stam":0.12},{"id":"bag3","name":"デイパック","cat":"bag","kind":"バッグ","w":1,"note":"ふつうの背負いかばん。バランスよく入り、疲れにくい。","stack":1,"size":[2,2],"rows":2,"cap":0,"stam":0.06},{"id":"bag4","name":"戦術バックパック","cat":"bag","kind":"バッグ","w":1.8,"note":"軍用の大型パック。たくさん入り、重さを支えて持てる重量も増える。","stack":1,"size":[3,2],"rows":3,"cap":3,"stam":0.08},{"id":"breacher","name":"ブリーチャー","cat":"main","kind":"散弾銃","w":3.4,"dmg":22,"rof":95,"range":10,"acc":60,"mag":8,"stack":1,"size":[3,2]},{"id":"hornet","name":"ホーネット","cat":"sub","kind":"機関拳銃","w":1.4,"dmg":18,"rof":720,"range":13,"acc":58,"mag":20,"stack":1,"size":[3,2]}];
+const floorCount=()=>3;
+const DIRS4=[[1,0],[-1,0],[0,1],[0,-1]];
+const rollVariant=(id)=>id;
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+const T_DOOR=3,T_LOCK=4,T_OPEN=5;
+const GEN={
+  house:{
+    size:[null,[46,27],[52,29],[58,31],[64,33],[70,35]],
+    rooms:[0,6,8,10,12,14],
+    yard:5,minRoom:5,furn:1,
+    enemyPerRoom:1.2,enemyPerDiff:.26,
+    mix:[['walker',1],['runner',.25]],mixPerDiff:[0,0,.08,.16,.24,.32],
+    lootPerRoom:1.0,
+    locks:[0,1,1,2,2,3],
+    loot:[
+      {id:'bandage',n:[1,2],w:30},
+      {id:'fabric',n:[3,8],w:12},
+      {id:'ammo9',n:[6,14],w:25},
+      {id:'ammo357',n:[6,12],w:14},
+      {id:'ammo556',n:[10,24],w:12},
+      {id:'sparrow',n:[1,1],w:9,max:1},
+      {id:'bulldog',n:[1,1],w:6,max:1},
+      {id:'knife',n:[1,1],w:5,max:1},
+      {id:'bat',n:[1,1],w:4,max:1},
+      {id:'flare',n:[1,2],w:3,max:2},
+      {id:'hunter',n:[1,1],w:2.5,max:1},
+      {id:'bag1',n:[1,1],w:1,max:1},
+      {id:'bag2',n:[1,1],w:.4,max:1},
+      {id:'bag3',n:[1,1],w:.6,minDiff:2,max:1},
+      {id:'handaxe',n:[1,1],w:5,max:1},
+      {id:'sledge',n:[1,1],w:2,max:1},
+      {id:'jackal',n:[1,1],w:2,max:1},
+      {id:'ammo12',n:[3,6],w:8},
+      {id:'ammobox',n:[1,1],w:.8,max:1},
+      {id:'flashlight',n:[1,1],w:7,max:1}
+    ]
+  },
+  /* 軍事施設: 部屋が多く、カードキー式の扉(キーレベル1〜3)で区切られる。武器・弾薬・防具が豊富 */
+  base:{
+    size:[null,[50,28],[56,30],[62,32],[68,34],[74,36]],
+    rooms:[0,6,7,8,9,10],
+    yard:5,minRoom:5,furn:1,
+    enemyPerRoom:1.5,enemyPerDiff:.3,
+    /* [種類, 出やすさ, 難易度での増え方] */
+    mix:[['walker',1],['runner',.4,1],['armored',.3,.5],['gunner',.3,.4]],mixPerDiff:[0,0,.1,.2,.3,.4],
+    bruteP:[0,.1,.2,.3,.45,.6],
+    lootPerRoom:1.3,
+    locks:[0,1,2,3,4,5],
+    keyMax:[0,1,2,2,3,3], /* 扉のキーレベルの最大(難易度別) */
+    breaker:true,
+    blackout:[0,0,.1,.15,.2,.25], /* 最初から停電している確率 */
+    sudden:[0,.3,.4,.5,.6,.7],    /* 作戦中にいきなり停電する確率 */
+    loot:[
+      {id:'ammo9',n:[10,20],w:18},
+      {id:'ammo357',n:[8,14],w:14},
+      {id:'ammo556',n:[15,30],w:22},
+      {id:'ammo12',n:[4,8],w:12},
+      {id:'bandage',n:[1,3],w:14},
+      {id:'fabric',n:[3,8],w:7},
+      {id:'medkit',n:[1,1],w:7,minDiff:2},
+      {id:'stim',n:[1,1],w:2.5,minDiff:3,max:2},
+      {id:'sparrow',n:[1,1],w:8,max:1},
+      {id:'bulldog',n:[1,1],w:6,max:1},
+      {id:'hornet',n:[1,1],w:7,max:1},
+      {id:'bronco',n:[1,1],w:8,max:2},
+      {id:'bison',n:[1,1],w:8,max:2},
+      {id:'jackal',n:[1,1],w:5,max:1},
+      {id:'breacher',n:[1,1],w:.4,max:1},
+      {id:'breacher',n:[1,1],w:1,minDiff:3,max:1},
+      {id:'breacher',n:[1,1],w:2,minDiff:4,max:1},
+      {id:'handaxe',n:[1,1],w:3,max:1},
+      {id:'sledge',n:[1,1],w:3,max:1},
+      {id:'helmet1',n:[1,1],w:6,max:1},
+      {id:'vest1',n:[1,1],w:5,max:1},
+      {id:'helmet2',n:[1,1],w:4,minDiff:2,max:1},
+      {id:'vest2',n:[1,1],w:3,minDiff:3,max:1},
+      {id:'bag2',n:[1,1],w:.6,max:1},
+      {id:'bag3',n:[1,1],w:.8,max:1},
+      {id:'bag4',n:[1,1],w:.3,minDiff:3,max:1},
+      {id:'bag4',n:[1,1],w:.6,minDiff:4,max:1},
+      {id:'nvg1',n:[1,1],w:.2,minDiff:2,max:1},
+      {id:'nvg2',n:[1,1],w:.4,minDiff:3,max:1},
+      {id:'nvg3',n:[1,1],w:.6,minDiff:4,max:1},
+      {id:'ammobox',n:[1,1],w:5,max:2},
+      {id:'flashlight',n:[1,1],w:5,max:1},
+      {id:'frag',n:[1,2],w:8,minDiff:2},
+      {id:'flash',n:[1,2],w:7,minDiff:2}
+    ],
+    /* カードキー扉の奥。lv=この扉のキーレベル以上で出る */
+    vault:[
+      {id:'ammo556',n:[20,40],w:14},{id:'ammo357',n:[10,18],w:8},{id:'ammo12',n:[6,10],w:8},{id:'ammo9',n:[15,30],w:8},
+      {id:'medkit',n:[1,2],w:10},
+      {id:'stim',w:4,max:2},
+      {id:'bronco',w:12,max:3},{id:'bison',w:12,max:3},{id:'hornet',w:8,max:2},{id:'jackal',w:6,max:2},{id:'sledge',w:4,max:1},{id:'breacher',w:1,max:1},{id:'breacher',w:3,lv:2,max:1},
+      {id:'ammobox',w:4,max:1},{id:'bag3',w:1.5,max:1},{id:'bag4',w:1.2,lv:2,max:1},{id:'helmet1',w:6,max:1},{id:'vest1',w:7,max:1},
+      {id:'helmet2',w:9,lv:2,max:2},{id:'vest2',w:9,lv:2,max:2},{id:'revive',w:5,lv:2,max:2},{id:'frag',n:[2,3],w:8},{id:'flash',n:[1,2],w:6},
+      {id:'helmet3',w:8,lv:3,max:1},{id:'vest3',w:9,lv:3,max:1},
+      {id:'nvg1',w:.7,max:1},{id:'nvg2',w:1.2,lv:2,max:1},{id:'nvg3',w:1.6,lv:3,max:1}
+    ]
+  },
+  /* 病院: 長い廊下の両側に小部屋がずらりと並ぶ。layout:'hall' は genHall で作る */
+  hospital:{
+    layout:'hall',
+    size:[null,[54,28],[64,30],[74,32],[84,34],[94,36]],
+    yard:4,minRoom:4,maxRoom:7,furn:1,
+    enemyPerRoom:.5,enemyPerDiff:.2,
+    hallEn:[0,3,5,8,11,14],
+    bruteP:[0,.2,.3,.45,.6,.75], /* 大男が出る確率(難易度別) */
+    mix:[['walker',1],['runner',.3]],mixPerDiff:[0,0,.1,.2,.3,.4],
+    lootPerRoom:.8,
+    locks:[0,1,2,2,3,4],
+    blackout:[0,.4,.5,.6,.7,.8], /* 停電する確率(難易度別) */
+    /* 回復・補助が多い。難易度が上がるほど医療キットや蘇生キットが増える */
+    loot:[
+      {id:'bandage',n:[1,3],w:34},
+      {id:'bandage2',n:[1,2],w:5},
+      {id:'fabric',n:[3,8],w:12},
+      {id:'medkit',n:[1,1],w:8,minDiff:2},
+      {id:'medkit',n:[1,2],w:8,minDiff:4},
+      {id:'stim',n:[1,2],w:4,minDiff:2,max:3},
+      {id:'revive',n:[1,1],w:4,minDiff:3,max:3},
+      {id:'ammo9',n:[6,14],w:18},
+      {id:'ammo357',n:[6,12],w:8},
+      {id:'ammo556',n:[10,20],w:5,minDiff:3},
+      {id:'sparrow',n:[1,1],w:5,max:1},
+      {id:'hornet',n:[1,1],w:4,minDiff:2,max:1},
+      {id:'knife',n:[1,1],w:3,max:1},
+      {id:'bat',n:[1,1],w:3,max:1},
+      {id:'bag1',n:[1,1],w:.8,max:1},
+      {id:'bag2',n:[1,1],w:.5,max:1},
+      {id:'bag3',n:[1,1],w:.6,minDiff:2,max:1},
+      {id:'handaxe',n:[1,1],w:3,max:1},
+      {id:'jackal',n:[1,1],w:2,minDiff:2,max:1},
+      {id:'ammo12',n:[3,6],w:5,minDiff:2},
+      {id:'flashlight',n:[1,1],w:4,max:1}
+    ],
+    /* 鍵つきの部屋(薬品庫)の中身 */
+    vault:[
+      {id:'medkit',n:[1,2],w:30},
+      {id:'bandage',n:[2,4],w:20},
+      {id:'bandage2',n:[1,2],w:6},
+      {id:'revive',n:[1,1],w:10,minDiff:2},
+      {id:'hornet',n:[1,1],w:8,minDiff:2},
+      {id:'sparrow',n:[1,1],w:6},
+      {id:'ammo9',n:[10,20],w:10}
+    ]
+  }
+};
+GEN.lab={...GEN.base,
+  rooms:[0,7,8,9,10,11],minRoom:4,lootPerRoom:1.2,
+  enemyPerRoom:.95,enemyPerDiff:.24,
+  mix:[['mutant',1],['mutrunner',.35,1]],mixPerDiff:[0,0,.1,.2,.3,.4],
+  bruteType:'mutbrute',bruteP:[0,.15,.25,.4,.55,.7],
+  tankP:[0,.15,.22,.3,.38,.45],
+  breakLocks:[0,1,2,2,3,3],      /* 壊せる鍵つき扉の数(難易度別) */
+  pipes:[0,2,3,3,4,4], /* 壁ぎわのパイプの数(階ごと) */
+  doorAmbush:[0,.5,.55,.6,.65,.7], /* その扉ごとに、扉の隣で待ち伏せる確率 */ /* 部屋ごとの培養槽(近づくと割れて変異種が出る)の確率 */
+  blackout:[0,.1,.2,.25,.3,.35],sudden:[0,.35,.45,.55,.65,.75],
+  loot:[
+    {id:'ammo9',n:[8,16],w:14},{id:'ammo357',n:[6,12],w:10},{id:'ammo556',n:[12,24],w:14},{id:'ammo12',n:[3,7],w:8},
+    {id:'bandage',n:[1,3],w:10},{id:'medkit',n:[1,1],w:9},{id:'revive',n:[1,1],w:5,minDiff:2,max:3},
+    {id:'stim',n:[1,1],w:3,minDiff:2,max:2},{id:'tranq',n:[1,1],w:1.6,max:1},
+    {id:'flash',n:[1,2],w:7,minDiff:2},{id:'frag',n:[1,2],w:6,minDiff:2},{id:'gasg',n:[1,2],w:3.5,max:3},
+    {id:'parts',n:[2,6],w:10},{id:'fabric',n:[3,8],w:6},{id:'flashlight',n:[1,1],w:5,max:1},
+    {id:'nvg1',n:[1,1],w:1.5,max:1},{id:'nvg2',n:[1,1],w:1,minDiff:3,max:1},{id:'nvg3',n:[1,1],w:1,minDiff:4,max:1},
+    {id:'helmet2',n:[1,1],w:3,minDiff:2,max:1},{id:'vest2',n:[1,1],w:3,minDiff:3,max:1},
+    {id:'bag2',n:[1,1],w:1.5,max:1},{id:'bag3',n:[1,1],w:1.5,minDiff:2,max:1},
+    {id:'sparrow',n:[1,1],w:4,max:1},{id:'hornet',n:[1,1],w:3,minDiff:2,max:1},{id:'hunter',n:[1,1],w:2,max:1},{id:'breacher',n:[1,1],w:.6,minDiff:3,max:1}
+  ],
+  vault:[
+    {id:'medkit',n:[1,2],w:10},{id:'revive',w:8,max:2},{id:'tranq',w:1.5,max:1},
+    {id:'ammo556',n:[20,36],w:10},{id:'ammo357',n:[10,16],w:6},{id:'ammo12',n:[6,10],w:6},
+    {id:'parts',n:[4,10],w:10},{id:'fabric',n:[6,12],w:10},
+    {id:'nvg1',w:3,max:1},{id:'nvg2',w:3,lv:2,max:1},{id:'nvg3',w:3,lv:3,max:1},
+    {id:'helmet3',w:5,lv:3,max:1},{id:'vest3',w:5,lv:3,max:1},{id:'bag4',w:5,lv:2,max:1},
+    {id:'hunter',w:3,max:1},{id:'breacher',w:3,lv:2,max:1},{id:'frag',n:[2,3],w:6},{id:'flash',n:[1,2],w:5},{id:'gasg',n:[1,2],w:4}
+  ]
+};
+GEN.plant={...GEN.base,
+  plant:true,
+  enemyPerRoom:1.4,enemyPerDiff:.28,
+  mix:[['walker',1],['runner',.35,1],['armored',.5,.6]],mixPerDiff:[0,0,.1,.2,.3,.4],
+  bruteP:[0,.1,.2,.3,.45,.6],
+  lootPerRoom:1.3,
+  pipes:[0,1,2,2,3,3],
+  breakLocks:[0,1,2,2,3,3],
+  blackout:[0,.85,.9,.95,1,1],
+  loot:[
+    {id:'parts',n:[3,8],w:16},{id:'fabric',n:[2,6],w:8},
+    {id:'ammo9',n:[8,16],w:14},{id:'ammo357',n:[6,12],w:9},{id:'ammo556',n:[10,22],w:12},{id:'ammo12',n:[3,7],w:8},
+    {id:'bandage',n:[1,3],w:16},{id:'medkit',n:[1,1],w:6,minDiff:2},{id:'stim',n:[1,1],w:2,minDiff:3,max:2},
+    {id:'flashlight',n:[1,1],w:9,max:1},
+    {id:'flare',n:[1,2],w:3.5,max:2},{id:'stunbaton',n:[1,1],w:5,max:1},{id:'weldmask',n:[1,1],w:1.2,max:1},{id:'toolbox',n:[1,1],w:1.6,max:1},
+    {id:'handaxe',n:[1,1],w:5,max:1},{id:'sledge',n:[1,1],w:4,max:1},{id:'bat',n:[1,1],w:3,max:1},
+    {id:'sparrow',n:[1,1],w:5,max:1},{id:'bulldog',n:[1,1],w:4,max:1},{id:'jackal',n:[1,1],w:3,max:1},
+    {id:'helmet1',n:[1,1],w:3,max:1},{id:'vest1',n:[1,1],w:3,max:1},
+    {id:'bag2',n:[1,1],w:1.2,max:1},{id:'bag3',n:[1,1],w:1.2,minDiff:2,max:1},
+    {id:'frag',n:[1,2],w:3,minDiff:3},{id:'flash',n:[1,1],w:3,minDiff:2}
+  ],
+  vault:[
+    {id:'parts',n:[6,14],w:14},{id:'fabric',n:[4,10],w:6},
+    {id:'stunbaton',w:5,max:1},{id:'weldmask',w:4,max:1},{id:'toolbox',w:4,max:1},
+    {id:'ammo556',n:[16,30],w:10},{id:'ammo12',n:[5,9],w:6},{id:'ammo357',n:[8,14],w:6},
+    {id:'medkit',n:[1,2],w:8},{id:'helmet2',w:4,lv:2,max:1},{id:'vest2',w:4,lv:2,max:1},
+    {id:'bronco',w:3,max:1},{id:'bison',w:3,max:1},{id:'hunter',w:3,max:1},{id:'breacher',w:2.5,lv:2,max:1},
+    {id:'frag',n:[2,3],w:5},{id:'flash',n:[1,2],w:4}
+  ]
+};
+GEN.shelter={...GEN.base,
+  size:[null,[42,24],[46,26],[50,28],[54,30],[58,32]],
+  rooms:[0,5,7,9,10,12],minRoom:4,
+  enemyPerRoom:1.0,enemyPerDiff:.22,
+  mix:[['walker',1],['armored',.7,.9],['runner',.3,.6],['gunner',.2,.5]],mixPerDiff:[0,0,.1,.2,.3,.4],
+  bruteP:[0,.2,.35,.5,.65,.8],
+  lootPerRoom:1.2,
+  locks:[0,1,2,2,3,4],keyMax:[0,1,2,2,3,3],
+  pipes:[0,3,4,5,5,6],vent:true,
+  breakLocks:[0,1,1,2,2,3],
+  blackout:[0,.5,.6,.7,.8,.9],
+  loot:[
+    {id:'ration',n:[1,2],w:3.5},{id:'gasmask',n:[1,1],w:1.6,max:1},{id:'hazmat',n:[1,1],w:1.6,minDiff:2,max:1},
+    {id:'ammo9',n:[8,16],w:12},{id:'ammo357',n:[6,12],w:9},{id:'ammo556',n:[10,22],w:9},{id:'ammo12',n:[3,7],w:7},
+    {id:'bandage',n:[1,3],w:14},{id:'medkit',n:[1,1],w:7,minDiff:2},{id:'tranq',n:[1,1],w:.9,minDiff:2,max:1},
+    {id:'flare',n:[1,2],w:4,max:2},{id:'gasg',n:[1,2],w:1.6,minDiff:2,max:2},{id:'flash',n:[1,1],w:3,minDiff:2},{id:'frag',n:[1,2],w:3,minDiff:3},
+    {id:'parts',n:[2,6],w:8},{id:'fabric',n:[2,6],w:7},{id:'flashlight',n:[1,1],w:8,max:1},
+    {id:'toolbox',n:[1,1],w:1.4,max:1},{id:'helmet1',n:[1,1],w:3,max:1},{id:'vest1',n:[1,1],w:3,max:1},
+    {id:'bulldog',n:[1,1],w:5,max:1},{id:'jackal',n:[1,1],w:3.5,max:1},{id:'sparrow',n:[1,1],w:4,max:1},
+    {id:'handaxe',n:[1,1],w:3,max:1},{id:'sledge',n:[1,1],w:2,max:1},{id:'bag2',n:[1,1],w:1.2,max:1},{id:'bag3',n:[1,1],w:1.1,minDiff:2,max:1}
+  ],
+  vault:[
+    {id:'ration',n:[1,2],w:4},{id:'gasmask',w:3,max:1},{id:'hazmat',w:4,lv:2,max:1},
+    {id:'medkit',n:[1,2],w:9},{id:'revive',w:6,lv:2,max:1},{id:'tranq',w:2,max:1},
+    {id:'ammo556',n:[16,30],w:9},{id:'ammo12',n:[5,9],w:6},{id:'ammo357',n:[8,14],w:6},
+    {id:'gasg',n:[1,2],w:4},{id:'frag',n:[2,3],w:4},{id:'parts',n:[4,10],w:8},
+    {id:'hunter',w:3,max:1},{id:'breacher',w:2.5,lv:2,max:1},{id:'helmet2',w:4,lv:2,max:1},{id:'vest2',w:4,lv:2,max:1}
+  ]
+};
+function pickW(rnd,list){
+  let t=0;for(const x of list)t+=x.w;
+  let r=rnd()*t;
+  for(const x of list){r-=x.w;if(r<=0)return x}
+  return list[list.length-1];
+}
+function genTry(cfg,diff,seed){
+  const rnd=mulberry32(seed),ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const [W,H]=cfg.size[diff];
+  const g=Array.from({length:H},()=>Array(W).fill(0));
+  for(let x=0;x<W;x++){g[0][x]=1;g[H-1][x]=1}
+  for(let y=0;y<H;y++){g[y][0]=1;g[y][W-1]=1}
+  const bx0=3,bx1=W-4,by0=2,by1=H-1-cfg.yard;
+  for(let x=bx0;x<=bx1;x++){g[by0][x]=1;g[by1][x]=1}
+  for(let y=by0;y<=by1;y++){g[y][bx0]=1;g[y][bx1]=1}
+  // 部屋割り(2分割を繰り返す)
+  let leaves=[{x0:bx0+1,y0:by0+1,x1:bx1-1,y1:by1-1}];
+  const splits=[],mn=cfg.minRoom,nRooms=cfg.rooms[diff];
+  while(leaves.length<nRooms){
+    leaves.sort((a,b)=>(b.x1-b.x0+1)*(b.y1-b.y0+1)-(a.x1-a.x0+1)*(a.y1-a.y0+1));
+    let done=false;
+    for(let i=0;i<leaves.length&&!done;i++){
+      const r=leaves[i],w=r.x1-r.x0+1,h=r.y1-r.y0+1;
+      const canV=w>=2*mn+1,canH=h>=2*mn+1;
+      if(!canV&&!canH)continue;
+      const vert=canV&&(!canH||(w/h>1.15||(w/h>.87&&rnd()<.5)));
+      leaves.splice(i,1);
+      if(vert){
+        const pos=ri(r.x0+mn,r.x1-mn);
+        for(let y=r.y0;y<=r.y1;y++)g[y][pos]=1;
+        splits.push({v:true,pos,a:r.y0,b:r.y1});
+        leaves.push({...r,x1:pos-1},{...r,x0:pos+1});
+      } else {
+        const pos=ri(r.y0+mn,r.y1-mn);
+        for(let x=r.x0;x<=r.x1;x++)g[pos][x]=1;
+        splits.push({v:false,pos,a:r.x0,b:r.x1});
+        leaves.push({...r,y1:pos-1},{...r,y0:pos+1});
+      }
+      done=true;
+    }
+    if(!done)break;
+  }
+  // 扉(分割した壁のうち、両側が床の所に開ける)
+  const doors=[],sdoors=[];
+  for(const sp of splits){
+    const cand=[];
+    for(let t=sp.a;t<=sp.b;t++){
+      const ok=sp.v?(g[t][sp.pos-1]===0&&g[t][sp.pos+1]===0):(g[sp.pos-1][t]===0&&g[sp.pos+1][t]===0);
+      if(ok)cand.push(t);
+    }
+    if(!cand.length)return null;
+    const t0=cand[ri(0,cand.length-1)];
+    const two=cand.includes(t0+1)&&rnd()<.7;
+    const sd={v:sp.v,tiles:[]};
+    for(const t of two?[t0,t0+1]:[t0]){
+      if(sp.v){g[t][sp.pos]=0;doors.push([sp.pos,t]);sd.tiles.push([sp.pos,t])}else{g[sp.pos][t]=0;doors.push([t,sp.pos]);sd.tiles.push([t,sp.pos])}
+    }
+    sdoors.push(sd);
+  }
+  // 玄関(建物の下の壁。下に接する部屋から選ぶ)
+  const bottoms=leaves.filter(l=>l.y1===by1-1&&l.x1-l.x0+1>=3);
+  if(!bottoms.length)return null;
+  const sr=bottoms[ri(0,bottoms.length-1)];
+  const dw=3,dx0=ri(sr.x0,sr.x1-dw+1);
+  for(let x=dx0;x<dx0+dw;x++){g[by1][x]=0;doors.push([x,by1])}
+  const cx=dx0+dw/2;
+  const start=[[cx-.8,sr.y1-.5],[cx+.8,sr.y1-.5]];
+  // 家具(壁沿いに置く。扉や玄関の前はふさがない)
+  const near=(x,y,r)=>doors.some(([dx,dy])=>Math.abs(dx-x)<=r&&Math.abs(dy-y)<=r);
+  const shapes=[[2,1],[1,2],[2,2],[3,1],[1,3],[1,1]];
+  for(const r of leaves){
+    const n=Math.max(0,Math.round(ri(1,3)*cfg.furn));
+    for(let k=0;k<n;k++)for(let tries=0;tries<12;tries++){
+      const [w,h]=shapes[ri(0,shapes.length-1)];
+      const x=ri(r.x0,r.x1-w+1),y=ri(r.y0,r.y1-h+1);
+      if(!(x===r.x0||x+w-1===r.x1||y===r.y0||y+h-1===r.y1))continue;
+      let ok=true;
+      for(let j=y-1;j<=y+h&&ok;j++)for(let i=x-1;i<=x+w&&ok;i++){
+        if(j<0||i<0||j>=H||i>=W){ok=false;break}
+        const inside=i>=x&&i<x+w&&j>=y&&j<y+h;
+        if(inside&&(g[j][i]!==0||near(i,j,1)))ok=false;
+        if(inside&&r===sr&&Math.abs(i-cx)<3&&j>=sr.y1-2)ok=false;
+      }
+      if(!ok)continue;
+      for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)g[j][i]=2;
+      break;
+    }
+  }
+  // 到達できる床を調べる
+  const seen=new Uint8Array(W*H),q=[];
+  const sx=Math.floor(start[0][0]),sy=Math.floor(start[0][1]);
+  q.push(sy*W+sx);seen[sy*W+sx]=1;
+  for(let i=0;i<q.length;i++){
+    const c=q[i],x=c%W,y=(c/W)|0;
+    for(const [ax,ay] of DIRS4){
+      const nx=x+ax,ny=y+ay;
+      if(nx<0||ny<0||nx>=W||ny>=H||g[ny][nx]!==0||seen[ny*W+nx])continue;
+      seen[ny*W+nx]=1;q.push(ny*W+nx);
+    }
+  }
+  const roomCells=[];
+  for(const r of leaves){
+    let tot=0,got=[];
+    for(let y=r.y0;y<=r.y1;y++)for(let x=r.x0;x<=r.x1;x++)if(g[y][x]===0){tot++;if(seen[y*W+x])got.push([x,y])}
+    if(!tot||got.length<tot*.85)return null;
+    roomCells.push(got);
+  }
+  // ドア(部屋の区切り)。一部は鍵つき。鍵つきの奥には良い物が落ちている
+  const dist=new Int16Array(W*H).fill(-1);
+  {const qq=[sy*W+sx];dist[qq[0]]=0;
+   for(let i=0;i<qq.length;i++){const c=qq[i],x=c%W,y=(c/W)|0;for(const [ax,ay] of DIRS4){const nx=x+ax,ny=y+ay;if(nx<0||ny<0||nx>=W||ny>=H||g[ny][nx]!==0||dist[ny*W+nx]>=0)continue;dist[ny*W+nx]=dist[c]+1;qq.push(ny*W+nx)}}}
+  const order=sdoors.map((_,i)=>i);
+  for(let i=order.length-1;i>0;i--){const j=ri(0,i);[order[i],order[j]]=[order[j],order[i]]}
+  const nLock=Math.min(Math.max(0,sdoors.length-1),cfg.locks?cfg.locks[diff]:0);
+  const locked=new Set(order.slice(0,nLock)),lockInfo=[];
+  /* 壊せる鍵つき扉(カードキーではない): 銃や近接で壊せる。研究施設ではこの隣に敵が待ち伏せる */
+  const nBreak=cfg.breakLocks?Math.min(Math.max(0,sdoors.length-nLock),cfg.breakLocks[diff]):0;
+  const breakSet=new Set(order.slice(nLock,nLock+nBreak)),breakInfo=[];
+  /* カードキー式: 鍵つき扉にキーレベル(1〜)を割り当てる */
+  const maxLv=cfg.keyMax?cfg.keyMax[diff]:0,lockLv={},lvOf={};
+  [...locked].forEach((si,k)=>{lvOf[si]=maxLv?1+(k%maxLv):0});
+  sdoors.forEach((sd,i)=>{
+    const lk=locked.has(i);
+    for(const [x,y] of sd.tiles){
+      if(lk){
+        const a=sd.v?[x-1,y]:[x,y-1],b=sd.v?[x+1,y]:[x,y+1];
+        const da=dist[a[1]*W+a[0]],db=dist[b[1]*W+b[0]];
+        lockInfo.push({x,y,far:da>db?a:b,d:Math.max(da,db),id:i,lv:lvOf[i]||0});
+        if(maxLv)lockLv[y*W+x]=lvOf[i];
+      }
+      if(!lk&&breakSet.has(i)){
+        const a=sd.v?[x-1,y]:[x,y-1],b=sd.v?[x+1,y]:[x,y+1];
+        const da=dist[a[1]*W+a[0]],db=dist[b[1]*W+b[0]];
+        breakInfo.push({x,y,far:da>db?a:b,d:Math.max(da,db),id:i});
+        g[y][x]=4;continue;
+      }
+      g[y][x]=lk?4:3;
+    }
+  });
+  // 敵
+  const si=leaves.indexOf(sr),others=leaves.map((_,i)=>i).filter(i=>i!==si);
+  const nEn=Math.max(2,Math.round((nRooms-1)*(cfg.enemyPerRoom+cfg.enemyPerDiff*(diff-1))+ri(-1,1)));
+  const mix=cfg.mix.map(([t,w,k],i)=>({t,w:i?w+cfg.mixPerDiff[diff]*(k===undefined?1:k):w}));
+  const enemies=[],used=new Set();
+  /* 鍵つき扉を通らずに行ける範囲(キーレベル k 未満の扉は通れるとして調べる) */
+  const regionOf=k=>{
+    const rg=new Int16Array(W*H).fill(-1),qq=[sy*W+sx];rg[qq[0]]=0;
+    for(let i=0;i<qq.length;i++){const c=qq[i],x=c%W,y=(c/W)|0;
+      for(const [ax,ay] of DIRS4){const nx=x+ax,ny=y+ay;if(nx<0||ny<0||nx>=W||ny>=H||rg[ny*W+nx]>=0)continue;
+        const t=g[ny][nx];if(t===4){const L=lockLv[ny*W+nx];if(!(L&&L<k))continue}else if(t!==0&&t!==3&&t!==5)continue;
+        rg[ny*W+nx]=rg[c]+1;qq.push(ny*W+nx)}}
+    return rg;
+  };
+  let breaker=null;
+  if(cfg.breaker){
+    const rg=regionOf(0),cs=[];
+    for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){
+      if(g[y][x]!==0||rg[y*W+x]<8)continue;
+      if(x<bx0||x>bx1||y<by0||y>by1)continue;
+      if(g[y-1][x]===1||g[y+1][x]===1||g[y][x-1]===1||g[y][x+1]===1)cs.push([x,y]);
+    }
+    if(!cs.length)return null;
+    const c=cs[ri(0,cs.length-1)];used.add(c[1]*W+c[0]);breaker={x:c[0]+.5,y:c[1]+.5};
+  }
+  const blackout=cfg.blackout?rnd()<cfg.blackout[diff]:false;
+  for(let k=0,guard=0;k<nEn&&guard<400;guard++){
+    const ri2=others[ri(0,others.length-1)],cells=roomCells[ri2],c=cells[ri(0,cells.length-1)];
+    if(Math.hypot(c[0]+.5-start[0][0],c[1]+.5-start[0][1])<6||used.has(c[1]*W+c[0]))continue;
+    used.add(c[1]*W+c[0]);
+    enemies.push([pickW(rnd,mix.map(m=>({t:m.t,w:m.w}))).t,c[0]+.5,c[1]+.5]);k++;
+  }
+  if(cfg.bruteP){
+    const bp=cfg.bruteP[diff]||0;
+    for(let n=0;n<2;n++){
+      if(rnd()>=(n?bp*.5:bp))continue;
+      for(let guard=0;guard<60;guard++){
+        const cells=roomCells[ri(0,roomCells.length-1)],c=cells[ri(0,cells.length-1)];
+        if(Math.hypot(c[0]+.5-start[0][0],c[1]+.5-start[0][1])<9||used.has(c[1]*W+c[0]))continue;
+        used.add(c[1]*W+c[0]);enemies.push([cfg.bruteType||'brute',c[0]+.5,c[1]+.5]);break;
+      }
+    }
+  }
+  if(cfg.tankP){
+    for(const ri2 of others){
+      if(rnd()>=cfg.tankP[diff])continue;
+      const cells=roomCells[ri2];
+      for(let guard=0;guard<30;guard++){
+        const c=cells[ri(0,cells.length-1)];
+        if(Math.hypot(c[0]+.5-start[0][0],c[1]+.5-start[0][1])<8||used.has(c[1]*W+c[0]))continue;
+        used.add(c[1]*W+c[0]);enemies.push([rnd()<.25?'mutrunner':'mutant',c[0]+.5,c[1]+.5,'tank']);break;
+      }
+    }
+  }
+  /* 研究施設のパイプ: 壁ぎわを通っていて、撃つと煙が噴き出す */
+  const pipes=[];
+  if(cfg.pipes){
+    const rooms2=roomCells;
+    for(let n=0,guard=0;n<cfg.pipes[diff]&&guard<200;guard++){
+      const cells=rooms2[ri(0,rooms2.length-1)],c=cells[ri(0,cells.length-1)];
+      if(used.has(c[1]*W+c[0])||Math.hypot(c[0]+.5-start[0][0],c[1]+.5-start[0][1])<6)continue;
+      const dirs=[[1,0],[-1,0],[0,1],[0,-1]].filter(([ax,ay])=>g[c[1]+ay]&&g[c[1]+ay][c[0]+ax]===1);
+      if(!dirs.length)continue;
+      const [nx,ny]=dirs[ri(0,dirs.length-1)];
+      if(pipes.some(p=>Math.hypot(p.x-c[0]-.5,p.y-c[1]-.5)<4))continue;
+      used.add(c[1]*W+c[0]);pipes.push({x:c[0]+.5+nx*.36,y:c[1]+.5+ny*.36,nx,ny,done:false});n++;
+    }
+  }
+  /* 鍵つき扉の向こう側のすぐ隣に、息をひそめた敵を置く(扉を開けた人を不意打ちで掴む) */
+  if(cfg.doorAmbush&&breakInfo.length){
+    const seenD=new Set();
+    for(const li of breakInfo){
+      if(seenD.has(li.id))continue;seenD.add(li.id);
+      if(rnd()>=cfg.doorAmbush[diff])continue;
+      const c=li.far;
+      if(used.has(c[1]*W+c[0])||g[c[1]][c[0]]!==0)continue;
+      used.add(c[1]*W+c[0]);enemies.push([rnd()<.2?'mutrunner':'mutant',c[0]+.5,c[1]+.5,'ambush']);
+    }
+  }
+  // アイテム
+  const loot=[],cnt={};
+  const table=cfg.loot.filter(l=>(l.minDiff||1)<=diff);
+  const nLoot=Math.round(nRooms*cfg.lootPerRoom)+ri(0,2);
+  const place=entry=>{
+    for(let guard=0;guard<80;guard++){
+      const cells=roomCells[ri(0,roomCells.length-1)],c=cells[ri(0,cells.length-1)];
+      if(used.has(c[1]*W+c[0]))continue;
+      used.add(c[1]*W+c[0]);
+      loot.push([rollVariant(entry.id,diff,rnd),ri(entry.n[0],entry.n[1]),c[0]+.5,c[1]+.5]);cnt[entry.id]=(cnt[entry.id]||0)+1;return true;
+    }
+    return false;
+  };
+  place(table.find(l=>l.id==='bandage'));
+  for(let k=1;k<nLoot;k++){
+    const pool=table.filter(l=>!l.max||(cnt[l.id]||0)<l.max);
+    place(pickW(rnd,pool));
+  }
+  if(lockInfo.length&&maxLv){
+    /* カードキー扉の奥: キーレベルが高いほど良い物が多い */
+    const vt=cfg.vault.filter(l=>(l.minDiff||1)<=diff),vc={},done=new Set();
+    for(const li of lockInfo){
+      if(done.has(li.id))continue;done.add(li.id);
+      const cand=[];
+      for(let y=li.far[1]-3;y<=li.far[1]+3;y++)for(let x=li.far[0]-3;x<=li.far[0]+3;x++){
+        if(x<0||y<0||x>=W||y>=H||g[y][x]!==0||used.has(y*W+x))continue;
+        if(dist[y*W+x]>li.d-1)cand.push([x,y]);
+      }
+      const m=2+li.lv;
+      for(let k=0;k<m&&cand.length;k++){
+        const pool=vt.filter(l=>(l.lv||1)<=li.lv&&(!l.max||(vc[l.id]||0)<l.max));
+        const e=pickW(rnd,pool);vc[e.id]=(vc[e.id]||0)+1;
+        const c=cand.splice(ri(0,cand.length-1),1)[0];used.add(c[1]*W+c[0]);
+        loot.push([rollVariant(e.id,Math.min(5,diff+1),rnd),ri((e.n||[1,1])[0],(e.n||[1,1])[1]),c[0]+.5,c[1]+.5]);
+      }
+    }
+  } else if(lockInfo.length){
+    const wtab=table.filter(l=>['main','sub','melee'].includes(_base[l.id]&&_base[l.id].cat));
+    const done=new Set();
+    for(const li of lockInfo){
+      const key=li.far.join();if(done.has(key))continue;done.add(key);
+      const cand=[];
+      for(let y=li.far[1]-3;y<=li.far[1]+3;y++)for(let x=li.far[0]-3;x<=li.far[0]+3;x++){
+        if(x<0||y<0||x>=W||y>=H||g[y][x]!==0||used.has(y*W+x))continue;
+        if(dist[y*W+x]>li.d-1)cand.push([x,y]);
+      }
+      for(let k=0;k<2&&cand.length;k++){
+        const c=cand.splice(ri(0,cand.length-1),1)[0];used.add(c[1]*W+c[0]);
+        if(k===0&&wtab.length)loot.push([rollVariant(pickW(rnd,wtab).id,Math.min(5,diff+1),rnd),1,c[0]+.5,c[1]+.5]);
+        else{const e2=pickW(rnd,table.filter(l=>_base[l.id].cat==='ammo'||l.id==='bandage'));loot.push([e2.id,ri(e2.n[0],e2.n[1]),c[0]+.5,c[1]+.5])}
+      }
+    }
+  }
+  /* 壊せる鍵つき扉の奥にも、少し物資を置く */
+  if(breakInfo.length){
+    const bt=table.filter(l=>['ammo556','ammo9','ammo357','ammo12','medkit','bandage','parts','fabric','frag','flash'].includes(l.id)),doneB=new Set();
+    for(const li of breakInfo){
+      if(doneB.has(li.id)||!bt.length)continue;doneB.add(li.id);
+      const cand=[];
+      for(let y=li.far[1]-3;y<=li.far[1]+3;y++)for(let x=li.far[0]-3;x<=li.far[0]+3;x++){
+        if(x<0||y<0||x>=W||y>=H||g[y][x]!==0||used.has(y*W+x))continue;
+        if(dist[y*W+x]>li.d-1)cand.push([x,y]);
+      }
+      for(let k=0;k<2&&cand.length;k++){
+        const e2=pickW(rnd,bt),c=cand.splice(ri(0,cand.length-1),1)[0];used.add(c[1]*W+c[0]);
+        loot.push([e2.id,ri(e2.n[0],e2.n[1]),c[0]+.5,c[1]+.5]);
+      }
+    }
+  }
+  /* カードキー: Lv k のカードは、Lv k 未満の扉だけで行ける範囲に置く(取れない配置にならない) */
+  if(maxLv){
+    const usedLv=new Set(Object.values(lockLv));
+    for(let k=1;k<=maxLv;k++){
+      if(!usedLv.has(k))continue;
+      const rg=regionOf(k),cs=[];let mx=0;
+      for(let i=0;i<rg.length;i++)if(rg[i]>mx)mx=rg[i];
+      for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){
+        if(g[y][x]!==0||used.has(y*W+x)||rg[y*W+x]<Math.min(10,mx*.5))continue;
+        if(x<bx0||x>bx1||y<by0||y>by1)continue;
+        cs.push([x,y]);
+      }
+      if(!cs.length)return null;
+      const c=cs[ri(0,cs.length-1)];used.add(c[1]*W+c[0]);
+      loot.push(['key'+k,1,c[0]+.5,c[1]+.5]);
+    }
+  }
+  return {W,H,map:g,start,enemies,loot,exitY:by1+1.2,doorX:cx,
+    bld:{x:bx0+1,y:by0+1,w:bx1-bx0-1,h:by1-by0-1},rooms:leaves.length,seed,breaker,blackout,lockLv,pipes,plant:!!cfg.plant,vent:!!cfg.vent};
+}
+function genHall(cfg,diff,seed){
+  const rnd=mulberry32(seed),ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const [W,H]=cfg.size[diff];
+  const g=Array.from({length:H},()=>Array(W).fill(0));
+  for(let x=0;x<W;x++){g[0][x]=1;g[H-1][x]=1}
+  for(let y=0;y<H;y++){g[y][0]=1;g[y][W-1]=1}
+  const bx0=3,bx1=W-4,by0=2,by1=H-1-cfg.yard;
+  for(let x=bx0;x<=bx1;x++){g[by0][x]=1;g[by1][x]=1}
+  for(let y=by0;y<=by1;y++){g[y][bx0]=1;g[y][bx1]=1}
+  const inner=by1-by0-1,dT=Math.floor((inner-5)/2);
+  if(dT<3||inner-5-dT<3)return null;
+  const cyT=by0+dT+1,c0=cyT+1,c1=c0+2,cyB=c1+1;
+  for(let x=bx0;x<=bx1;x++){g[cyT][x]=1;g[cyB][x]=1}
+  // 廊下の両側を小部屋に区切る
+  const rooms=[];
+  for(const side of ['T','B']){
+    const y0=side==='T'?by0+1:cyB+1,y1=side==='T'?cyT-1:by1-1;
+    let x=bx0+1;const x1=bx1-1;
+    while(x<=x1){
+      let w=ri(cfg.minRoom,cfg.maxRoom);
+      if(x1-(x+w)<cfg.minRoom)w=x1-x+1;
+      rooms.push({x0:x,x1:x+w-1,y0,y1,side});
+      if(x+w<=x1)for(let y=y0;y<=y1;y++)g[y][x+w]=1;
+      x+=w+1;
+    }
+  }
+  // ロビー(玄関のある部屋)は下側で中央に近い広めの部屋
+  const mid=(bx0+bx1)/2;
+  const lobbyC=rooms.filter(r=>r.side==='B'&&r.x1-r.x0+1>=5).sort((a,b)=>Math.abs((a.x0+a.x1)/2-mid)-Math.abs((b.x0+b.x1)/2-mid));
+  if(!lobbyC.length)return null;
+  const lobby=lobbyC[0];
+  // 玄関
+  const dw=3,dx0=ri(lobby.x0,lobby.x1-dw+1);
+  for(let x=dx0;x<dx0+dw;x++)g[by1][x]=0;
+  const cx=dx0+dw/2;
+  const start=[[cx-.8,lobby.y1-.5],[cx+.8,lobby.y1-.5]];
+  // 各部屋から廊下へのドアの位置
+  const doors=[];
+  for(const r of rooms){
+    const wide=r===lobby||(r.x1-r.x0+1>=6&&rnd()<.3);
+    const x=ri(r.x0,r.x1-(wide?1:0)),y=r.side==='T'?cyT:cyB;
+    r.door=[];for(let k=0;k<(wide?2:1);k++){r.door.push([x+k,y]);doors.push([x+k,y])}
+  }
+  for(let x=dx0;x<dx0+dw;x++)doors.push([x,by1]);
+  const near=(x,y,rr)=>doors.some(([dx,dy])=>Math.abs(dx-x)<=rr&&Math.abs(dy-y)<=rr);
+  // 家具(ベッドなど)
+  const shapes=[[2,1],[1,2],[2,2],[1,1],[2,1]];
+  for(const r of rooms){
+    const n=r===lobby?ri(1,2):Math.max(0,Math.round(ri(1,2)*cfg.furn));
+    for(let k=0;k<n;k++)for(let tries=0;tries<14;tries++){
+      const [w,h]=shapes[ri(0,shapes.length-1)];
+      if(w>r.x1-r.x0||h>r.y1-r.y0)continue;
+      const x=ri(r.x0,r.x1-w+1),y=ri(r.y0,r.y1-h+1);
+      if(!(x===r.x0||x+w-1===r.x1||y===r.y0||y+h-1===r.y1))continue;
+      let ok=true;
+      for(let j=y-1;j<=y+h&&ok;j++)for(let i=x-1;i<=x+w&&ok;i++){
+        if(j<0||i<0||j>=H||i>=W){ok=false;break}
+        const inside=i>=x&&i<x+w&&j>=y&&j<y+h;
+        if(inside&&(g[j][i]!==0||near(i,j,1)))ok=false;
+        if(inside&&r===lobby&&Math.abs(i-cx)<3&&j>=lobby.y1-2)ok=false;
+      }
+      if(!ok)continue;
+      for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)g[j][i]=2;
+      break;
+    }
+  }
+  // 廊下の障害物(ストレッチャー・カート)。通路を完全にはふさがない
+  const nObs=Math.floor((bx1-bx0)/9);
+  for(let k=0;k<nObs;k++)for(let tries=0;tries<10;tries++){
+    const w=ri(1,2),x=ri(bx0+3,bx1-3-w),y=rnd()<.5?c0:c1;
+    let ok=true;
+    for(let i=x-1;i<=x+w&&ok;i++){if(i<bx0+1||i>=bx1)continue;if(g[y][i]!==0||near(i,y,1))ok=false}
+    if(!ok)continue;
+    for(let i=x;i<x+w;i++)g[y][i]=2;
+    break;
+  }
+  // 到達確認
+  const seen=new Uint8Array(W*H),q=[];
+  const sx=Math.floor(start[0][0]),sy=Math.floor(start[0][1]);
+  q.push(sy*W+sx);seen[sy*W+sx]=1;
+  // ドアの所は床として扱う
+  for(let i=0;i<q.length;i++){
+    const c=q[i],x=c%W,y=(c/W)|0;
+    for(const [ax,ay] of DIRS4){
+      const nx=x+ax,ny=y+ay;
+      if(nx<0||ny<0||nx>=W||ny>=H||seen[ny*W+nx])continue;
+      const isDoor=rooms.some(r=>r.door.some(d=>d[0]===nx&&d[1]===ny));
+      if(g[ny][nx]!==0&&!isDoor)continue;
+      seen[ny*W+nx]=1;q.push(ny*W+nx);
+    }
+  }
+  const cellsOf=(x0,x1,y0,y1)=>{const a=[];for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)if(g[y][x]===0&&seen[y*W+x])a.push([x,y]);return a};
+  for(const r of rooms){
+    r.cells=cellsOf(r.x0,r.x1,r.y0,r.y1);
+    let tot=0;for(let y=r.y0;y<=r.y1;y++)for(let x=r.x0;x<=r.x1;x++)if(g[y][x]===0)tot++;
+    if(!tot||r.cells.length<tot*.85)return null;
+  }
+  const hall=cellsOf(bx0+1,bx1-1,c0,c1);
+  // ドア(一部は鍵つきの薬品庫)
+  const cand=rooms.filter(r=>r!==lobby);
+  for(let i=cand.length-1;i>0;i--){const j=ri(0,i);[cand[i],cand[j]]=[cand[j],cand[i]]}
+  const nLock=Math.min(cand.length,cfg.locks[diff]),vaults=cand.slice(0,nLock);
+  for(const r of rooms)for(const [x,y] of r.door)g[y][x]=vaults.includes(r)?4:3;
+  // ブレイカー: 玄関から遠い、鍵のかかっていない部屋の壁際に置く
+  const used=new Set(),enemies=[];
+  let breaker=null;
+  {
+    const cs=[];
+    for(const r of rooms){
+      if(r===lobby||vaults.includes(r))continue;
+      for(const [x,y] of r.cells){
+        if(Math.hypot(x+.5-start[0][0],y+.5-start[0][1])<(bx1-bx0)*.3)continue;
+        if(g[y-1][x]===1||g[y+1][x]===1||g[y][x-1]===1||g[y][x+1]===1)cs.push([x,y]);
+      }
+    }
+    if(!cs.length)return null;
+    const c=cs[ri(0,cs.length-1)];used.add(c[1]*W+c[0]);breaker={x:c[0]+.5,y:c[1]+.5};
+  }
+  const blackout=rnd()<cfg.blackout[diff];
+  // 敵(廊下にも多め)
+  const mix=cfg.mix.map(([t,w],i)=>({t,w:i?w+cfg.mixPerDiff[diff]:w}));
+  const putEnemy=cells=>{
+    for(let guard=0;guard<60;guard++){
+      const c=cells[ri(0,cells.length-1)];
+      if(Math.hypot(c[0]+.5-start[0][0],c[1]+.5-start[0][1])<7||used.has(c[1]*W+c[0]))continue;
+      used.add(c[1]*W+c[0]);
+      enemies.push([pickW(rnd,mix).t,c[0]+.5,c[1]+.5]);return;
+    }
+  };
+  const nRoomEn=Math.max(2,Math.round(rooms.length*(cfg.enemyPerRoom+cfg.enemyPerDiff*(diff-1))));
+  for(let k=0;k<nRoomEn;k++)putEnemy(rooms[ri(0,rooms.length-1)].cells);
+  for(let k=0;k<cfg.hallEn[diff];k++)putEnemy(hall);
+  if(cfg.bruteP){
+    const bp=cfg.bruteP[diff]||0;
+    for(let n=0;n<2;n++){
+      if(rnd()>=(n?bp*.4:bp)||(n&&diff<4))continue;
+      for(let guard=0;guard<60;guard++){
+        const cells=rnd()<.3?hall:rooms[ri(0,rooms.length-1)].cells,c=cells[ri(0,cells.length-1)];
+        if(Math.hypot(c[0]+.5-start[0][0],c[1]+.5-start[0][1])<9||used.has(c[1]*W+c[0]))continue;
+        used.add(c[1]*W+c[0]);enemies.push([cfg.bruteType||'brute',c[0]+.5,c[1]+.5]);break;
+      }
+    }
+  }
+  // アイテム
+  const loot=[],cnt={};
+  const table=cfg.loot.filter(l=>(l.minDiff||1)<=diff);
+  const nLoot=Math.round(rooms.length*cfg.lootPerRoom)+ri(0,3);
+  const place=(entry,cells)=>{
+    for(let guard=0;guard<80;guard++){
+      const c=cells[ri(0,cells.length-1)];
+      if(used.has(c[1]*W+c[0]))continue;
+      used.add(c[1]*W+c[0]);
+      loot.push([rollVariant(entry.id,diff,rnd),ri(entry.n[0],entry.n[1]),c[0]+.5,c[1]+.5]);cnt[entry.id]=(cnt[entry.id]||0)+1;return true;
+    }
+    return false;
+  };
+  const roomsNoLobby=rooms.filter(r=>r!==lobby);
+  place(table.find(l=>l.id==='bandage'),lobby.cells.concat(hall));
+  for(let k=1;k<nLoot;k++){
+    const pool=table.filter(l=>!l.max||(cnt[l.id]||0)<l.max);
+    const cells=rnd()<.12?hall:roomsNoLobby[ri(0,roomsNoLobby.length-1)].cells;
+    place(pickW(rnd,pool),cells);
+  }
+  const vt=cfg.vault.filter(l=>(l.minDiff||1)<=diff);
+  for(const r of vaults){
+    const m=ri(3,4),vc={};
+    for(let k=0;k<m;k++){
+      const pool=vt.filter(l=>!l.max||(vc[l.id]||0)<l.max);
+      const e=pickW(rnd,pool);vc[e.id]=(vc[e.id]||0)+1;
+      place(e,r.cells);
+    }
+  }
+  return {W,H,map:g,start,enemies,loot,exitY:by1+1.2,doorX:cx,
+    bld:{x:bx0+1,y:by0+1,w:bx1-bx0-1,h:by1-by0-1},rooms:rooms.length,seed,vaults:vaults.length,breaker,blackout};
+}
+/* 闘技場: 回転対称の広場。2人は対角の端から始まり、床の物も敵も点対称に置く(どちらかに有利にならない) */
+GEN.arena={layout:'arena',
+  loot:[
+    {id:'ammo9',n:[12,24],w:8},{id:'ammo357',n:[6,12],w:8},{id:'ammo556',n:[16,30],w:10},{id:'ammo12',n:[4,8],w:7},
+    {id:'bandage',n:[1,2],w:10},{id:'bandage2',n:[1,1],w:5,minDiff:2},{id:'medkit',n:[1,1],w:5},
+    {id:'frag',n:[1,2],w:4},{id:'flash',n:[1,2],w:3},{id:'gasg',n:[1,1],w:2,minDiff:2},{id:'flare',n:[1,1],w:2},
+    {id:'sparrow',n:[1,1],w:3,max:2},{id:'bulldog',n:[1,1],w:3,max:2},{id:'hornet',n:[1,1],w:3,max:2},{id:'jackal',n:[1,1],w:3,max:2},
+    {id:'bronco',n:[1,1],w:3,max:2},{id:'bison',n:[1,1],w:2.5,max:2},{id:'hunter',n:[1,1],w:2,max:2},{id:'breacher',n:[1,1],w:1.5,minDiff:2,max:2},
+    {id:'helmet1',n:[1,1],w:2.5,max:2},{id:'vest1',n:[1,1],w:2.5,max:2},{id:'helmet2',n:[1,1],w:1.5,minDiff:3,max:2},{id:'vest2',n:[1,1],w:1.5,minDiff:3,max:2}
+  ],
+  vault:[],
+  pairs:[0,8,11,14,17,20],
+  enemies:[0,3,4,5,6,8],
+  mix:[['walker',1],['runner',.5],['armored',.2,3],['brute',.15,3],['gunner',.2,2]]
+};
+function genArena(cfg,diff,seed){
+  const rnd=mulberry32(seed),ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const W=46,H=30,g=Array.from({length:H},()=>Array(W).fill(0));
+  for(let x=0;x<W;x++){g[0][x]=1;g[H-1][x]=1}
+  for(let y=0;y<H;y++){g[y][0]=1;g[y][W-1]=1}
+  const sy=ri(5,H-6),start=[[4.5,sy+.5],[W-4.5,H-sy-.5]];
+  const near=(x,y,r)=>start.some(s=>Math.hypot(s[0]-x-.5,s[1]-y-.5)<r);
+  const mir=(x,y)=>[W-1-x,H-1-y];
+  const put=(x,y,v)=>{if(x<1||y<1||x>=W-1||y>=H-1)return;g[y][x]=v;const [a,b]=mir(x,y);g[b][a]=v};
+  /* 遮蔽物: 壁のかたまりと木箱 */
+  for(let k=0,n=0;n<14&&k<300;k++){
+    const w=ri(1,3),h=ri(1,3),x=ri(6,W-7),y=ri(3,H-4);
+    let ok=true;
+    for(let yy=y-1;yy<=y+h&&ok;yy++)for(let xx=x-1;xx<=x+w;xx++){if(g[yy]&&g[yy][xx]!==0){ok=false;break}if(near(xx,yy,4)){ok=false;break}}
+    if(!ok)continue;
+    const [mx,my]=mir(x+w-1,y+h-1);if(mx<x+w+1&&mx+w>x-1&&my<y+h+1&&my+h>y-1)continue;
+    const v=rnd()<.35?2:1;
+    for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++)put(xx,yy,v);
+    n++;
+  }
+  /* 中央に低い壁のリング(ひらけた所と遮蔽の混ぜ具合) */
+  const cx=W>>1,cy=H>>1;
+  for(let d=-2;d<=2;d++){if(d!==0){put(cx+d-1,cy-3,2)}}
+  const used=new Set(),free=(x,y)=>g[y][x]===0&&!used.has(y*W+x)&&!near(x,y,3.2);
+  const loot=[],cnt={},table=cfg.loot.filter(l=>(l.minDiff||1)<=diff);
+  const mark=(x,y)=>{used.add(y*W+x);const [a,b]=mir(x,y);used.add(b*W+a)};
+  for(let k=0,n=cfg.pairs[diff],g0=0;k<n&&g0<800;g0++){
+    const x=ri(2,W-3),y=ri(2,H-3);if(!free(x,y)||used.has(y*W+x))continue;
+    const pool=table.filter(l=>!l.max||(cnt[l.id]||0)<l.max);
+    const e=pickW(rnd,pool),id=rollVariant(e.id,diff,rnd),nn=ri(e.n[0],e.n[1]);
+    cnt[e.id]=(cnt[e.id]||0)+1;
+    const [a,b]=mir(x,y);
+    loot.push([id,nn,x+.5,y+.5],[id,nn,a+.5,b+.5]);mark(x,y);k++;
+  }
+  const enemies=[];
+  for(let k=0,n=cfg.enemies[diff],g0=0;k<n&&g0<800;g0++){
+    const x=ri(3,W-4),y=ri(2,H-3);if(!free(x,y)||near(x,y,9)||used.has(y*W+x))continue;
+    const el=cfg.mix.filter(m=>(m[2]||1)<=diff),t=pickW(rnd,el.map(m=>({id:m[0],w:m[1]}))).id;
+    const [a,b]=mir(x,y);
+    enemies.push([t,x+.5,y+.5],[t,a+.5,b+.5]);mark(x,y);k++;
+  }
+  return {W,H,map:g,start,enemies,loot,exitY:1e9,doorX:W/2,bld:{x:1,y:1,w:W-2,h:H-2},rooms:1,seed,breaker:null,blackout:false,lockLv:{},pipes:[],plant:false,vent:false,arena:true};
+}
+function genLevel(fac,diff,seed){
+  const cfg=GEN[fac];
+  if(cfg.layout==='arena')return genArena(cfg,diff,seed);
+  for(let a=0;a<60;a++){const lv=(cfg.layout==='hall'?genHall:genTry)(cfg,diff,(seed+a*7919)>>>0);if(lv)return lv}
+  throw new Error('マップを生成できませんでした');
+}
+/* 複数階: 階ごとにマップを作り、階段でつなぐ。1階にだけ脱出口がある */
+function bfsDistMap(map,W,H,sx,sy){
+  const d=new Int16Array(W*H).fill(-1),q=[sy*W+sx];d[sy*W+sx]=0;
+  for(let h=0;h<q.length;h++){
+    const c=q[h],x=c%W,y=(c/W)|0;
+    for(const [ax,ay] of [[1,0],[-1,0],[0,1],[0,-1]]){
+      const nx=x+ax,ny=y+ay;
+      if(nx<0||ny<0||nx>=W||ny>=H||d[ny*W+nx]>=0)continue;
+      const v=map[ny][nx];if(v!==0&&v!==3&&v!==5)continue;
+      d[ny*W+nx]=d[c]+1;q.push(ny*W+nx);
+    }
+  }
+  return d;
+}
+function genMission(fac,diff,seed){
+  const n=floorCount(fac,diff),lvs=[];
+  for(let i=0;i<n;i++){const lv=genLevel(fac,diff,(seed+i*104729)>>>0);lv.fi=i;lv.nf=n;lv.stairs=[];if(i>0)lv.exitY=1e9;lvs.push(lv)}
+  const rnd=mulberry32((seed^0x5bd1e995)>>>0),pick=a=>a[Math.floor(rnd()*a.length)];
+  const cand=lv=>{
+    const {W,H,map,bld}=lv,sx=Math.floor(lv.start[0][0]),sy=Math.floor(lv.start[0][1]);
+    const dist=bfsDistMap(map,W,H,sx,sy);
+    const occ=[...lv.loot.map(l=>[l[2],l[3]]),...lv.enemies.map(e=>[e[1],e[2]])];
+    const out=[];
+    for(let y=bld.y+1;y<bld.y+bld.h-1;y++)for(let x=bld.x+1;x<bld.x+bld.w-1;x++){
+      if(dist[y*W+x]<0||map[y][x]!==0)continue;
+      let ok=true;
+      for(let ay=-1;ay<=1&&ok;ay++)for(let ax=-1;ax<=1;ax++)if(map[y+ay][x+ax]!==0){ok=false;break}
+      if(!ok)continue;
+      if(occ.some(o=>Math.hypot(o[0]-x-.5,o[1]-y-.5)<2.5))continue;
+      out.push([x,y,dist[y*W+x]]);
+    }
+    return {out,dist};
+  };
+  for(let i=0;i<n;i++){
+    const lv=lvs[i],{out:cs}=cand(lv);
+    if(!cs.length)continue;
+    let prev=null;
+    if(i>0){prev=pick(cs.filter(c=>c[2]>5).length?cs.filter(c=>c[2]>5):cs);lv.stairs.push({x:prev[0]+.5,y:prev[1]+.5,to:i-1})}
+    if(i<n-1){
+      let pool;
+      if(prev){
+        const d2=bfsDistMap(lv.map,lv.W,lv.H,prev[0],prev[1]);
+        pool=cs.map(c=>[c[0],c[1],d2[c[1]*lv.W+c[0]]]).filter(c=>c[2]>0).sort((a,b)=>b[2]-a[2]);
+      }else pool=cs.slice().sort((a,b)=>b[2]-a[2]);
+      const top=pool.slice(0,Math.max(1,Math.ceil(pool.length*.4)));
+      const c=pick(top);lv.stairs.push({x:c[0]+.5,y:c[1]+.5,to:i+1});
+    }
+  }
+  /* 目標物資: 最後の階の、入口から遠い側(奥の半分)のどこかに置く。持ち帰らないと作戦成功にならない */
+  const last=lvs[n-1];
+  if(last&&!last.arena){
+    /* 距離は、その階に着く場所(上の階から来る階段、1階建てなら入口)から測る */
+    const o=n>1&&last.stairs.length?last.stairs[0]:{x:last.start[0][0],y:last.start[0][1]};
+    const dist=bfsDistMap(last.map,last.W,last.H,Math.floor(o.x),Math.floor(o.y));
+    const occ=[...last.loot.map(l=>[l[2],l[3]]),...last.enemies.map(e=>[e[1],e[2]]),...last.stairs.map(t=>[t.x,t.y])];
+    const bd=last.bld||{x:1,y:1,w:last.W-2,h:last.H-2};
+    let pool=[];
+    for(let y=bd.y;y<bd.y+bd.h;y++)for(let x=bd.x;x<bd.x+bd.w;x++){
+      if(y<1||x<1||y>=last.H-1||x>=last.W-1||last.map[y][x]!==0||!(dist[y*last.W+x]>0))continue;
+      if(occ.some(q=>Math.hypot(q[0]-x-.5,q[1]-y-.5)<1.6))continue;
+      pool.push([x,y,dist[y*last.W+x]]);
+    }
+    pool.sort((a,b)=>b[2]-a[2]);
+    if(!pool.length){
+      for(let y=1;y<last.H-1;y++)for(let x=1;x<last.W-1;x++)if(last.map[y][x]===0&&dist[y*last.W+x]>0)pool.push([x,y,dist[y*last.W+x]]);
+      pool.sort((a,b)=>b[2]-a[2]);
+    }
+    if(pool.length){
+      const far=pool.filter(c=>c[2]>=pool[0][2]*.6),c=pick(far.length?far:pool);
+      last.loot.push(['objective',1,c[0]+.5,c[1]+.5]);last.obj=[c[0]+.5,c[1]+.5];
+    }
+  }
+  return lvs;
+}
+/* 地形: 0=床 1=壁 2=家具 3=ドア(体当たりで開く) 4=鍵つきドア(壊すしかない) 5=開いたドア */
+
+window.LabGen={gen:function(seed,diff){return genMission('lab',diff,seed>>>0)},bfs:bfsDistMap,CATALOG:CATALOG};
+})();
+</script>
 <script>
 (function(){
 'use strict';
@@ -117,18 +1047,50 @@ var PAD_C='y'.repeat(300);       /* 生存者→親機の1回あたりの荷物(
 var COL=['var(--p1)','var(--p2)','var(--p3)'];
 
 /* ---------- 状態 ---------- */
-var S={view:'title',host:false,code:'',peer:null,ready:false,busy:false,err:'',codeIn:'',
+var S={notes:[],hostLast:0,hostDown:false,view:'title',host:false,code:'',peer:null,ready:false,busy:false,err:'',codeIn:'',relay:false,
   link:'off',   /* off | open | down */
   sl:[null,null,null],   /* 親機: {ctl,str,rd,rtt,id} */
   ro:[{on:0},{on:0},{on:0}], /* 画面表示用の名簿 */
   slot:-1,ctl:null,str:null,test:false,rtt:null,ema:null};
 var meters={};
-var tH=null,tC=null,tP=null,tk=0,ct=0,rq=0,tmo=0;
+var tB=null,tH=null,tC=null,tP=null,tk=0,ct=0,rq=0,tmo=0;
 
 var $=function(s){return document.querySelector(s)};
 var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
 function setHTML(el,h){if(!el||el.__h===h)return;el.__h=h;el.innerHTML=h}
 function safe(fn){try{fn()}catch(e){}}
+
+/* ---------- 診断ログと接続設定 ---------- */
+var LOG=[];
+function L(m){var d=new Date();LOG.push(('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2)+' '+m);if(LOG.length>40)LOG.shift();schedule()}
+/* 中継サーバー(TURN)は、端末同士が直接つながれない回線で使われる。openrelay は公開の無料枠で、動くかは未確認 */
+var ICE=[
+  {urls:'stun:stun.l.google.com:19302'},
+  {urls:'stun:stun1.l.google.com:19302'},
+  {urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'},
+  {urls:['turn:openrelay.metered.ca:80','turn:openrelay.metered.ca:443','turns:openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'}
+];
+function makePeer(id){
+  var cfg={iceServers:ICE};if(S.relay)cfg.iceTransportPolicy='relay';
+  var o={debug:0,config:cfg};
+  return id?new Peer(id,o):new Peer(o);
+}
+function watch(conn,label){
+  var pc=conn&&conn.peerConnection;if(!pc||pc.__w)return;pc.__w=1;
+  var c={host:0,srflx:0,relay:0,other:0};
+  pc.addEventListener('icecandidate',function(e){
+    if(!e.candidate){L(label+' 候補 直接'+c.host+' 外部'+c.srflx+' 中継'+c.relay);return}
+    var m=/ typ (\w+)/.exec(e.candidate.candidate||'');var k=(m&&c[m[1]]!=null)?m[1]:'other';c[k]++;
+  });
+  pc.addEventListener('iceconnectionstatechange',function(){L(label+' ICE '+pc.iceConnectionState)});
+  pc.addEventListener('connectionstatechange',function(){L(label+' 接続 '+pc.connectionState)});
+}
+function notify(m,k){S.notes.push({m:m,k:k||'warn',e:performance.now()+9000});L(m);schedule()}
+function paintNotice(){
+  var n=performance.now();S.notes=S.notes.filter(function(x){return x.e>n});
+  setHTML($('#notice'),S.notes.map(function(x){return '<div class="nt '+x.k+'">'+esc(x.m)+'</div>'}).join(''));
+}
+function paintLog(){var el=$('#log');if(!el)return;var t=LOG.slice(-16).join('\n');setHTML(el,t?esc(t):'(まだありません)')}
 
 /* ---------- 受信レートの計測 ---------- */
 function tick(key,v){
@@ -157,7 +1119,7 @@ function go(v){
       '<article class="panel role sv"><span class="eyebrow">SURVIVOR</span><h2>生存者</h2>'+
       '<p>3人で施設の最深部から地上を目指します。感染者の画面に出る4桁の番号で、その部屋に入ります。</p>'+
       '<button class="btn sv" data-act="join">部屋に入る</button></article>'+
-    '</section><p class="note" id="hint"></p>';
+    '</section><p class="note" id="hint"></p><div><button class="btn line small" id="relaybtn" data-act="relay"></button></div>';
   }else if(v==='join'){
     m.innerHTML=
     '<div class="col"><div class="backrow"><button class="btn line small" data-act="back">戻る</button><h2>部屋に入る</h2></div>'+
@@ -171,7 +1133,7 @@ function go(v){
     '<div class="room"><div class="col"><section class="panel" id="ctl" style="--pc:'+(S.host?'var(--inf)':'var(--haz)')+'"></section>'+
     '<section class="panel" id="net" style="--pc:var(--line)"></section></div>'+
     '<section class="panel" style="--pc:var(--line)"><span class="eyebrow">SURVIVORS</span><div class="slots" id="roster"></div></section></div>';
-  }
+  }else if(v==='game'){gameShell()}
   paint();
 }
 function qualCls(r){return r==null?'':r<80?'good':r<150?'warn':'bad'}
@@ -192,6 +1154,7 @@ function paintTitle(){
   h.innerHTML=miss?'<b style="color:var(--bad)">通信の部品を読み込めませんでした。</b>ネットにつながっているか確認して、ページを開き直してください。'
     :'4台とも、このページを同じURLで開いてください。感染者は1台だけが「部屋をつくる」を押します。';
   if(S.err)h.innerHTML+='<br><b style="color:var(--bad)">'+esc(S.err)+'</b>';
+  var rb=$('#relaybtn');if(rb)rb.textContent='診断: 中継のみで接続 ['+(S.relay?'オン':'オフ')+']';
   var b=document.querySelectorAll('.role .btn');for(var i=0;i<b.length;i++)b[i].disabled=miss||S.busy;
 }
 function paintJoin(){var m=$('#joinmsg');if(m)m.textContent=S.err}
@@ -203,9 +1166,9 @@ function paintCtl(){
     h='<span class="eyebrow">ROOM CODE</span><div class="bigcode num">'+esc(S.code)+'</div>'+
       '<p>生存者の端末で「部屋に入る」を押して、この番号を入れてください。</p>'+
       '<div class="btnrow"><button class="btn inf" data-act="test">'+(S.test?'通信テストを止める':'通信テストを始める')+'</button>'+
-      '<button class="btn line" data-act="start" disabled>ゲーム開始</button>'+
+      '<button class="btn '+(canStart()?'inf':'line')+'" data-act="start"'+(canStart()?'':' disabled')+'>ゲーム開始</button>'+
       '<button class="btn line" data-act="leave">部屋を閉じる</button></div>'+
-      '<p class="note">ゲーム画面は次の工程で作ります。いまは4台の通信が実用になるかを測る段階です。参加 '+joinedCount()+'人 / 準備OK '+readyCount()+'人。</p>';
+      '<p class="note">生存者は1〜3人で始められます。参加している全員が「準備OK」を押すと、開始できます。参加 '+joinedCount()+'人 / 準備OK '+readyCount()+'人。</p>';
   }else if(S.slot>=0){
     var s=S.slot;
     h='<span class="eyebrow">YOU ARE</span><div class="mybadge"><span class="tag" style="--pc:'+COL[s]+'">'+(s+1)+'P</span><div><b>生存者 '+(s+1)+'P</b><p>部屋 <span class="num">'+esc(S.code)+'</span></p></div></div>'+
@@ -256,6 +1219,8 @@ function paint(){
   paintStat();
   if(S.view==='title')paintTitle();else if(S.view==='join')paintJoin();
   else if(S.view==='room'){paintCtl();paintRoster();paintNet()}
+  else if(S.view==='game')paintGame();
+  paintLog();paintNotice();
 }
 function schedule(){if(rq)return;rq=setTimeout(function(){rq=0;paint()},150)}
 
@@ -265,38 +1230,54 @@ function send(c,d){if(c&&c.open)safe(function(){c.send(d)})}
 /* ---------- 親機 ---------- */
 function pushRoster(){
   var ro=[];
-  for(var i=0;i<3;i++){var s=S.sl[i];ro.push(s?{on:1,rd:s.rd?1:0,rtt:s.rtt}:{on:0})}
+  for(var i=0;i<3;i++){var s=S.sl[i];ro.push(s&&s.up?{on:1,rd:s.rd?1:0,rtt:s.rtt}:{on:0})}
   S.ro=ro;
-  for(var j=0;j<3;j++)if(S.sl[j])send(S.sl[j].ctl,{t:'ro',s:ro,test:S.test?1:0});
+  for(var j=0;j<3;j++)if(S.sl[j]&&S.sl[j].up)send(S.sl[j].ctl,{t:'ro',s:ro,test:S.test?1:0});
   schedule();
 }
 function hostIncoming(conn){
   var k=conn.metadata&&conn.metadata.k;
+  L('親機: '+(k||'?')+' の接続要求');watch(conn,'親機'+(k||'?'));
   if(k==='str'){
     var idx=-1;for(var i=0;i<3;i++)if(S.sl[i]&&S.sl[i].id===conn.peer)idx=i;
     if(idx<0){conn.on('open',function(){safe(function(){conn.close()})});return}
     S.sl[idx].str=conn;
     conn.on('data',function(d){
       if(!d)return;
+      if(S.sl[idx])S.sl[idx].last=performance.now();
       if(d.t==='c'&&typeof d.n==='number')tick('c'+idx,d.n);
       else if(d.t==='p')send(conn,{t:'q',ts:d.ts});
     });
     return;
   }
   var slot=-1;for(var a=0;a<3;a++)if(!S.sl[a]){slot=a;break}
+  if(slot<0){var nn=performance.now();for(var b2=0;b2<3;b2++){var gs=S.sl[b2];if(gs&&!gs.up&&nn-gs.t0>5000){dropSlot(b2,gs,'');slot=b2;break}}}
   if(slot<0){conn.on('open',function(){send(conn,{t:'full'});setTimeout(function(){safe(function(){conn.close()})},400)});return}
-  var me={ctl:conn,str:null,rd:false,rtt:null,id:conn.peer};
+  var me={ctl:conn,str:null,rd:false,rtt:null,id:conn.peer,up:false,t0:performance.now(),last:performance.now()};
   S.sl[slot]=me;
-  conn.on('open',function(){send(conn,{t:'hi',slot:slot});pushRoster()});
+  conn.on('open',function(){
+    if(S.sl[slot]!==me)return;
+    me.up=true;me.last=performance.now();send(conn,{t:'hi',slot:slot});pushRoster();if(G)syncTo(slot);
+    var m=(slot+1)+'Pが入りました';notify(m,'good');broadcast({t:'ev',m:m});
+  });
   conn.on('data',function(d){
     if(!d)return;
+    me.last=performance.now();
+    if(d.t==='hb')return;
+    if(d.t==='bye'){dropSlot(slot,me,'が退出しました');return}
     if(d.t==='rd'){me.rd=!!d.v;pushRoster()}
     else if(d.t==='r'&&typeof d.v==='number'){me.rtt=Math.round(d.v);pushRoster()}
+    else hostMsg(slot,d);
   });
-  var gone=function(){
-    if(S.sl[slot]===me){S.sl[slot]=null;if(me.str)safe(function(){me.str.close()});pushRoster()}
-  };
+  var gone=function(){dropSlot(slot,me,'が抜けました')};
   conn.on('close',gone);conn.on('error',gone);
+}
+function dropSlot(i,me,why){
+  if(S.sl[i]!==me)return;
+  var was=me.up;S.sl[i]=null;
+  safe(function(){me.ctl.close()});if(me.str)safe(function(){me.str.close()});
+  pushRoster();
+  if(was){var m=(i+1)+'P'+why;notify(m,'bad');broadcast({t:'ev',m:m})}
 }
 function hostStream(){
   if(tH)return;
@@ -314,10 +1295,11 @@ function toggleTest(){
 }
 function makeHost(tries){
   var code=String(1000+Math.floor(Math.random()*9000));
-  var p=new Peer(PFX+code);
+  var p=makePeer(PFX+code);
   S.peer=p;
   var done=false;
   p.on('open',function(){
+    L('親機: 仲介サーバーに登録 '+code);
     done=true;S.host=true;S.code=code;S.link='open';S.busy=false;S.err='';
     S.sl=[null,null,null];S.ro=[{on:0},{on:0},{on:0}];S.test=false;
     go('room');
@@ -325,7 +1307,7 @@ function makeHost(tries){
   p.on('connection',hostIncoming);
   p.on('disconnected',function(){S.link='down';schedule();if(!p.destroyed)safe(function(){p.reconnect()})});
   p.on('error',function(e){
-    var ty=e&&e.type;
+    var ty=e&&e.type;L('親機: エラー '+(ty||'?'));
     if(ty==='unavailable-id'&&tries>0&&!done){safe(function(){p.destroy()});makeHost(tries-1);return}
     if(!done){S.busy=false;S.err='部屋をつくれませんでした ('+(ty||'error')+')。もう一度試してください。';safe(function(){p.destroy()});go('title')}
     else{S.link='down';schedule()}
@@ -335,33 +1317,42 @@ function makeHost(tries){
 /* ---------- 生存者 ---------- */
 function clientStart(code){
   S.busy=true;S.err='';paintJoin();
-  var p=new Peer();S.peer=p;
-  var finished=false;
+  var p=makePeer();S.peer=p;
+  var finished=false;L('生存者: 仲介サーバーに接続中');
   var fail=function(msg){
     if(finished)return;finished=true;clearTimeout(tmo);S.busy=false;S.err=msg;
     safe(function(){p.destroy()});S.peer=null;S.ctl=null;S.str=null;S.link='off';go('join');
   };
   p.on('error',function(e){
-    var ty=e&&e.type;
+    var ty=e&&e.type;L('生存者: エラー '+(ty||'?'));
     if(finished&&S.view==='room'){S.link='down';schedule();return}
     fail(ty==='peer-unavailable'?'その番号の部屋が見つかりません。番号を確認してください。':'つなげませんでした ('+(ty||'error')+')。もう一度試してください。');
   });
   p.on('open',function(){
+    L('生存者: 仲介サーバーに登録、部屋 '+code+' へ接続を依頼');
     var ctl=p.connect(PFX+code,{reliable:true,metadata:{k:'ctl'}});
-    S.ctl=ctl;
-    tmo=setTimeout(function(){fail('部屋から返事がありません。感染者の画面が開いているか確認してください。')},12000);
+    S.ctl=ctl;watch(ctl,'生存者ctl');
+    tmo=setTimeout(function(){fail('部屋から返事がありません。下の通信ログを確認してください。')},25000);
     ctl.on('open',function(){});
     ctl.on('data',function(d){
       if(!d)return;
+      S.hostLast=performance.now();S.hostDown=false;
+      if(d.t==='hb')return;
+      if(d.t==='ev'){notify(d.m,'warn');return}
+      if(d.t==='bye'){notify('親機(感染者)が部屋を閉じました','bad');leave();return}
       if(d.t==='full'){fail('この部屋は満員です。');return}
       if(d.t==='hi'){
         if(finished)return;finished=true;clearTimeout(tmo);
         S.busy=false;S.host=false;S.code=code;S.slot=d.slot;S.link='open';S.ready=false;S.test=false;
         S.rtt=null;S.ema=null;resetMeters();S.ro=[{on:0},{on:0},{on:0}];
-        S.str=p.connect(PFX+code,{reliable:false,metadata:{k:'str'}});
+        L('生存者: 入室OK 席'+(d.slot+1));
+        S.hostLast=performance.now();S.hostDown=false;
+        if(tB)clearInterval(tB);tB=setInterval(function(){send(S.ctl,{t:'hb'})},2000);
+        S.str=p.connect(PFX+code,{reliable:false,metadata:{k:'str'}});watch(S.str,'生存者str');
         S.str.on('data',strData);
         S.str.on('open',startPing);
         go('room');
+      }else if(d.t==='go'||d.t==='ph'||d.t==='tm'||d.t==='me'){clientMsg(d)
       }else if(d.t==='ro'){
         S.ro=d.s;
         var was=S.test;S.test=!!d.test;
@@ -370,13 +1361,19 @@ function clientStart(code){
         schedule();
       }
     });
-    var lost=function(){if(S.view==='room'){S.link='down';stopAll(true);schedule()}else fail('部屋との通信が切れました。')};
+    var lost=function(){
+      if(finished&&(S.view==='room'||S.view==='game')){
+        if(!S.hostDown){S.hostDown=true;notify('親機(感染者)との通信が切れました','bad')}
+        S.link='down';stopAll(true);schedule();
+      }else fail('部屋との通信が切れました。');
+    };
     ctl.on('close',lost);ctl.on('error',lost);
   });
   p.on('disconnected',function(){if(S.view==='room'){S.link='down';schedule()}});
 }
 function strData(d){
   if(!d)return;
+  S.hostLast=performance.now();S.hostDown=false;
   if(d.t==='s'&&typeof d.n==='number')tick('h',d.n);
   else if(d.t==='q'&&typeof d.ts==='number'){
     var r=performance.now()-d.ts;
@@ -399,10 +1396,15 @@ function stopAll(keepPeer){
   if(tH){clearInterval(tH);tH=null}
   if(tC){clearInterval(tC);tC=null}
   if(tP){clearInterval(tP);tP=null}
+  if(tB){clearInterval(tB);tB=null}
   if(!keepPeer&&S.peer){var p=S.peer;S.peer=null;safe(function(){p.destroy()})}
 }
 function leave(){
-  stopAll(false);clearTimeout(tmo);
+  var pp=S.peer;
+  if(S.host)broadcast({t:'bye'});else send(S.ctl,{t:'bye'});
+  stopAll(true);S.peer=null;
+  setTimeout(function(){safe(function(){if(pp)pp.destroy()})},350);
+  clearTimeout(tmo);G=null;V=null;stopLoop();
   S.sl=[null,null,null];S.ro=[{on:0},{on:0},{on:0}];S.slot=-1;S.ctl=null;S.str=null;
   S.test=false;S.ready=false;S.link='off';S.host=false;S.busy=false;S.err='';
   go('title');
@@ -410,6 +1412,7 @@ function leave(){
 
 /* ---------- 操作 ---------- */
 document.addEventListener('click',function(e){
+  if(e.target&&e.target.id==='cv'){canvasClick(e);return}
   var b=e.target.closest&&e.target.closest('[data-act]');if(!b||b.disabled)return;
   var a=b.getAttribute('data-act');
   if(a==='host'){if(S.busy)return;S.busy=true;S.err='';paint();makeHost(6)}
@@ -423,13 +1426,356 @@ document.addEventListener('click',function(e){
   }
   else if(a==='ready'){S.ready=!S.ready;send(S.ctl,{t:'rd',v:S.ready});paintCtl()}
   else if(a==='test')toggleTest();
+  else if(a==='relay'){S.relay=!S.relay;paint()}
   else if(a==='leave')leave();
+  else gameClick(a,b,e);
 });
 document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='codein'){e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);S.codeIn=e.target.value}
 });
-setInterval(function(){if(S.view==='room'){paintRoster();paintNet()}},500);
-window.addEventListener('pagehide',function(){stopAll(false)});
+var hbc=0;
+setInterval(function(){
+  var n=performance.now();hbc++;
+  if(S.host&&S.peer){
+    for(var i=0;i<3;i++){
+      var s=S.sl[i];if(!s)continue;
+      if(!s.up&&n-s.t0>30000)dropSlot(i,s,'');
+      else if(s.up&&n-s.last>8000)dropSlot(i,s,'の応答がありません(切断とみなしました)');
+    }
+    if(hbc%2===0)broadcast({t:'hb'});
+  }else if(!S.host&&S.link==='open'&&S.hostLast&&(S.view==='room'||S.view==='game')&&n-S.hostLast>9000&&!S.hostDown){
+    S.hostDown=true;S.link='down';notify('親機(感染者)から応答がありません。通信が切れた可能性があります','bad');
+  }
+},1000);
+setInterval(function(){if(S.view==='room'){paintRoster();paintNet()}paintLog();paintNotice()},500);
+window.addEventListener('pagehide',function(){if(S.host)broadcast({t:'bye'});else send(S.ctl,{t:'bye'});stopAll(false)});
+
+window.__shin={S:S,startGame:startGame,clientMsg:clientMsg,hostMsg:hostMsg,mapClick:mapClick,nextRound:nextRound,endPrep:endPrep,get G(){return G},get V(){return V}};
+/* ================= ゲーム本編(研究施設) =================
+   親機(感染者)がすべての状態を持つ。生存者は操作を送り、結果を受け取って描く。
+   ラウンドr(1〜3)の階は、最深部から上へ B2 → B1 → 1F。 */
+var LG=window.LabGen;
+var CAT=LG.CATALOG,BYID={};CAT.forEach(function(i){BYID[i.id]=i});
+/* 仮の数値。遊びながら調整する */
+var CFG={prep:90,money0:1500,moneyR:800,costMax:150,costR:20,regen:2,rounds:3,diff:2,noPlace:7};
+var FN=['1F','B1','B2'];
+var PRICE={bulldog:300,sparrow:200,jackal:450,hornet:500,hunter:700,bronco:800,bison:1000,breacher:900,
+  stunbaton:150,bat:100,handaxe:200,sledge:350,
+  helmet1:120,helmet2:250,helmet3:400,nvg1:200,nvg2:350,nvg3:550,weldmask:300,gasmask:250,
+  vest1:200,vest2:450,vest3:700,hazmat:400,bag1:50,bag2:150,bag3:200,bag4:400,
+  ammo357:60,ammo556:80,ammo12:70,ammo9:40,
+  bandage:40,bandage2:80,medkit:150,stim:120,tranq:100,ration:30,revive:400,frag:150,flare:80,flash:120,gasg:140,ammobox:250,
+  flashlight:60,toolbox:180};
+var BUNDLE={ammo357:6,ammo556:30,ammo12:8,ammo9:30};   /* 弾は1回の購入でこの数が増える */
+var TABS=[['main','メイン'],['sub','サブ'],['melee','近接'],['head','頭'],['body','胴'],['bag','バッグ'],['gadget','支給品'],['ammo','弾'],['tool','道具']];
+var SLOTS=[['main','メイン武器'],['sub','サブ武器'],['melee','近接武器'],['head','ヘルメット'],['body','ボディアーマー'],['bag','バッグ'],['g1','支給品1'],['g2','支給品2']];
+var UNITS={
+  mut:{type:'mutant',name:'変異種',cost:25,col:'#7ac24a',ch:'変'},
+  run:{type:'mutrunner',name:'走る変異種',cost:35,col:'#c3dc3a',ch:'走'},
+  brute:{type:'mutbrute',name:'変異大男',cost:110,col:'#4f9e78',ch:'大'}
+};
+var LOCKCOST=30;
+var G=null;      /* 親機だけが持つ試合の状態 */
+var V=null;      /* 生存者の画面用(親機から届いた内容) */
+var tGame=null,lastT=0,secAcc=0,dirty=true,tab='main';
+
+function capOf(i){if(i.cat==='gadget')return i.id==='revive'?2:6;if(i.cat==='ammo')return i.stack||60;return 1}
+function slotFor(i){return {main:'main',sub:'sub',melee:'melee',head:'head',body:'body',bag:'bag'}[i.cat]||null}
+function fiOf(r){return CFG.rounds-r}
+function shoppable(i){return PRICE[i.id]>0}
+function newPlayer(){return {money:CFG.money0,inv:{bulldog:1,knife:1,ammo357:12},eq:{main:null,sub:'bulldog',melee:'knife',head:null,body:null,bag:null,g1:null,g2:null},in:false}}
+function meOf(p){return {money:p.money,inv:p.inv,eq:p.eq}}
+function broadcast(m){for(var i=0;i<3;i++)if(S.sl[i])send(S.sl[i].ctl,m)}
+function sendMe(i){var p=G&&G.players[i];if(p&&S.sl[i])send(S.sl[i].ctl,{t:'me',me:meOf(p)})}
+function phaseMsg(i){
+  var m={t:'ph',round:G.round,phase:G.phase,rem:Math.ceil(G.rem),fn:FN[fiOf(G.round)]};
+  if(i!=null&&G.players[i])m.me=meOf(G.players[i]);return m;
+}
+function sendPhase(){for(var i=0;i<3;i++)if(S.sl[i])send(S.sl[i].ctl,phaseMsg(i))}
+
+/* ---------- 階の情報(出発点と出口) ---------- */
+function levelInfo(lv){
+  var up=null,down=null;
+  (lv.stairs||[]).forEach(function(s){if(s.to===lv.fi-1)up=s;if(s.to===lv.fi+1)down=s});
+  var goal=up?{x:up.x,y:up.y,k:'up'}:{x:(lv.doorX||lv.W/2)+.5,y:Math.min(lv.exitY||lv.H-1,lv.H-1),k:'exit'};
+  var spawn;
+  if(down)spawn={x:down.x,y:down.y};
+  else{
+    var src=up||{x:lv.start[0][0],y:lv.start[0][1]};
+    var sx=Math.floor(src.x),sy=Math.floor(src.y);
+    var d=LG.bfs(lv.map,lv.W,lv.H,sx,sy),best=-1,bx=sx,by=sy;
+    for(var y=lv.bld.y;y<lv.bld.y+lv.bld.h;y++)for(var x=lv.bld.x;x<lv.bld.x+lv.bld.w;x++){
+      var v=d[y*lv.W+x];if(lv.map[y][x]===0&&v>best){best=v;bx=x;by=y}
+    }
+    spawn={x:bx+.5,y:by+.5};
+  }
+  return {up:up,down:down,goal:goal,spawn:spawn};
+}
+function mapSum(lv){var h=0;for(var y=0;y<lv.H;y++)for(var x=0;x<lv.W;x++)h=(h*31+lv.map[y][x]+1)>>>0;return h}
+
+/* ---------- 試合の開始と進行(親機) ---------- */
+function joinedIdx(){var a=[];for(var i=0;i<3;i++)if(S.sl[i]&&S.sl[i].up)a.push(i);return a}
+function canStart(){var a=joinedIdx();if(!a.length)return false;for(var i=0;i<a.length;i++)if(!S.sl[a[i]].rd)return false;return true}
+function setupRound(){
+  G.lv=G.lvs[fiOf(G.round)];G.info=levelInfo(G.lv);
+  G.inf={max:CFG.costMax+(G.round-1)*CFG.costR,cost:0,units:[],locks:{},nid:1};
+  G.inf.cost=G.inf.max;
+  G.phase='prep';G.rem=CFG.prep;G.tool='mut';dirty=true;
+}
+function startGame(){
+  if(!canStart()||G)return;
+  var seed=(Math.floor(Math.random()*4294967295))>>>0;
+  G={seed:seed,round:1,phase:'prep',rem:CFG.prep,players:[],lvs:LG.gen(seed,CFG.diff)};
+  for(var i=0;i<3;i++){var p=newPlayer();p.in=!!(S.sl[i]&&S.sl[i].up);G.players.push(p)}
+  setupRound();
+  G.chk=mapSum(G.lvs[fiOf(1)]);
+  for(var j=0;j<3;j++)if(S.sl[j]&&S.sl[j].up)send(S.sl[j].ctl,{t:'go',seed:seed,diff:CFG.diff,chk:G.chk,round:1,phase:'prep',rem:CFG.prep,fn:FN[fiOf(1)],me:meOf(G.players[j])});
+  L('試合開始 参加'+joinedIdx().length+'人');
+  S.view='game';go('game');startLoop();
+}
+function startLoop(){
+  if(tGame)return;lastT=performance.now();secAcc=0;
+  tGame=setInterval(function(){
+    var n=performance.now(),dt=Math.min(.5,(n-lastT)/1000);lastT=n;
+    if(S.host&&G){
+      if(G.phase==='prep'){
+        G.rem-=dt;G.inf.cost=Math.min(G.inf.max,G.inf.cost+CFG.regen*dt);dirty=true;
+        if(G.rem<=0)endPrep();
+      }
+      secAcc+=dt;if(secAcc>=1){secAcc=0;broadcast({t:'tm',rem:Math.max(0,Math.ceil(G.rem))})}
+    }else if(V&&V.phase==='prep'){V.rem=Math.max(0,V.rem-dt)}
+    if(S.view==='game')paintGame();
+  },100);
+}
+function stopLoop(){if(tGame){clearInterval(tGame);tGame=null}}
+function endPrep(){if(!G||G.phase!=='prep')return;G.phase='play';G.rem=0;dirty=true;sendPhase();L('準備終了 → 本編(仮)')}
+function nextRound(){
+  if(!G||G.phase==='prep')return;
+  if(G.round>=CFG.rounds){G.phase='end';dirty=true;sendPhase();return}
+  G.round++;G.players.forEach(function(p){p.money+=CFG.moneyR});
+  setupRound();sendPhase();
+}
+/* 生存者からの操作 */
+function hostMsg(idx,d){
+  if(!G||!d)return;var p=G.players[idx];if(!p)return;
+  if(d.t==='buy'&&G.phase==='prep'){
+    var i=BYID[d.id];if(!i||!(PRICE[d.id]>0))return;
+    var n=BUNDLE[d.id]||1,owned=p.inv[d.id]||0;
+    if(owned>=capOf(i)||p.money<PRICE[d.id])return;
+    p.money-=PRICE[d.id];p.inv[d.id]=Math.min(capOf(i),owned+n);
+    var s=slotFor(i);
+    if(s){if(!p.eq[s])p.eq[s]=i.id}
+    else if(i.cat==='gadget'&&!i.noSlot&&p.eq.g1!==i.id&&p.eq.g2!==i.id){if(!p.eq.g1)p.eq.g1=i.id;else if(!p.eq.g2)p.eq.g2=i.id}
+    sendMe(idx);dirty=true;
+  }else if(d.t==='eq'&&G.phase==='prep'){
+    var slot=d.slot;if(['main','sub','melee','head','body','bag','g1','g2'].indexOf(slot)<0)return;
+    if(d.id==null){p.eq[slot]=null;sendMe(idx);dirty=true;return}
+    var it=BYID[d.id];if(!it||!(p.inv[d.id]>0))return;
+    var ok=(slotFor(it)===slot)||(it.cat==='gadget'&&!it.noSlot&&(slot==='g1'||slot==='g2'));
+    if(!ok)return;
+    if(slot==='g1'&&p.eq.g2===d.id)p.eq.g2=null;
+    if(slot==='g2'&&p.eq.g1===d.id)p.eq.g1=null;
+    p.eq[slot]=d.id;sendMe(idx);dirty=true;
+  }
+}
+function syncTo(idx){
+  if(!G)return;var p=G.players[idx];
+  if(!p.in)p.in=true;
+  send(S.sl[idx].ctl,{t:'go',seed:G.seed,diff:CFG.diff,chk:G.chk,round:G.round,phase:G.phase,rem:Math.ceil(G.rem),fn:FN[fiOf(G.round)],me:meOf(p)});
+}
+/* 親機から届いた内容(生存者側) */
+function clientMsg(d){
+  if(d.t==='go'){
+    V={round:d.round,phase:d.phase,rem:d.rem,fn:d.fn,me:d.me,seed:d.seed};
+    var ok='?';
+    try{var lvs=LG.gen(d.seed,d.diff);ok=(mapSum(lvs[fiOf(d.round)])===d.chk)?'一致':'不一致'}catch(e){ok='生成エラー'}
+    L('マップ照合 '+ok);
+    S.view='game';go('game');startLoop();
+  }else if(V){
+    if(d.t==='ph'){V.round=d.round;V.phase=d.phase;V.rem=d.rem;V.fn=d.fn;if(d.me)V.me=d.me}
+    else if(d.t==='tm'){V.rem=d.rem}
+    else if(d.t==='me'){V.me=d.me}
+  }
+  dirty=true;
+}
+
+/* ---------- 画面の共通部品 ---------- */
+function setKeep(el,h){if(!el||el.__h===h)return;var st=el.scrollTop;el.innerHTML=h;el.scrollTop=st;el.__h=h}
+function mmss(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2)}
+function nm(id){return id&&BYID[id]?BYID[id].name:'—'}
+function gameShell(){
+  var m=$('#main');m.__h=null;
+  if(S.host){
+    m.innerHTML='<div class="gm"><section class="panel" id="ihead" style="--pc:var(--inf)"></section>'+
+      '<section class="panel" id="imap" style="--pc:var(--line)"><div class="tools" id="tools"></div><div class="cvwrap" id="cvw"><canvas id="cv"></canvas></div><p class="note" id="ihint"></p></section></div>';
+  }else{
+    m.innerHTML='<div class="gm"><section class="panel" id="shead" style="--pc:var(--haz)"></section>'+
+      '<div class="shop"><section class="panel" id="shopp" style="--pc:var(--line)"><div class="tabs" id="tabs"></div><div class="ilist" id="ilist"></div></section>'+
+      '<section class="panel" id="mine" style="--pc:var(--line)"></section></div></div>';
+  }
+  dirty=true;
+}
+function paintGame(){
+  if(S.host){paintInfected()}else{paintSurvivor()}
+}
+
+/* ---------- 生存者の画面(買い物) ---------- */
+function statChips(i){
+  var c=[];
+  if(i.dmg!=null)c.push('威力 '+i.dmg);if(i.rof)c.push('連射 '+i.rof);if(i.range)c.push('射程 '+i.range);if(i.acc)c.push('精度 '+i.acc);if(i.mag)c.push('装弾 '+i.mag);
+  if(i.armor!=null)c.push('防御 '+i.armor);if(i.nv)c.push('暗視 '+i.nv+'マス');
+  if(i.rows)c.push('容量 '+(i.rows*8)+'マス');
+  return c.map(function(x){return '<span class="chip">'+esc(x)+'</span>'}).join('');
+}
+function paintSurvivor(){
+  if(!V||!$('#shead'))return;
+  var m=V.me,slot=S.slot;
+  var head='<div class="hrow"><div><span class="eyebrow">ROUND '+V.round+' / '+CFG.rounds+'</span><h2>'+esc(V.fn)+' から脱出</h2></div>'+
+    '<button class="btn line small" data-act="leave">部屋を出る</button>'+
+    '<div class="hbox"><small>所持金</small><b class="num">'+m.money+'</b></div>'+
+    '<div class="hbox"><small>'+(V.phase==='prep'?'準備時間':V.phase==='play'?'本編':'終了')+'</small><b class="num">'+(V.phase==='prep'?mmss(V.rem):'—')+'</b></div></div>';
+  if(S.link==='down')head+='<div class="verdict bad">親機(感染者)との通信が切れています。「部屋を出る」を押して、入り直してください。</div>';
+  setKeep($('#shead'),head);
+  var shop=$('.shop'),stl=$('#shopp'),mine=$('#mine');
+  if(V.phase!=='prep'){
+    shop.style.display='block';
+    var done=V.phase==='end'?'3ラウンドが終わりました(仮の画面です)。':'ここから、ゲーム本編(移動・戦闘・視界)を作ります。いまは買い物までが動きます。';
+    var inv='';SLOTS.forEach(function(s){inv+='<div class="kvrow"><span>'+s[1]+'</span><b>'+esc(nm(m.eq[s[0]]))+'</b></div>'});
+    setKeep(stl,'<span class="eyebrow">PLAY</span><h2>準備が終わりました</h2><p>'+done+'</p><div class="kv2">'+inv+'</div>');
+    mine.style.display='none';return;
+  }
+  shop.style.display='';stl.style.display='';mine.style.display='';
+  if(!$('#tabs')){stl.innerHTML='<div class="tabs" id="tabs"></div><div class="ilist" id="ilist"></div>';stl.__h=null}
+  setKeep($('#tabs'),TABS.map(function(t){return '<button class="tabb'+(tab===t[0]?' on':'')+'" data-act="tab" data-v="'+t[0]+'">'+t[1]+'</button>'}).join(''));
+  var rows=CAT.filter(function(i){return i.cat===tab&&shoppable(i)}).map(function(i){
+    var owned=m.inv[i.id]||0,cap=capOf(i),price=PRICE[i.id],can=m.money>=price&&owned<cap;
+    var b=BUNDLE[i.id]?(' ×'+BUNDLE[i.id]):'';
+    return '<div class="irow"><div class="im"><b>'+esc(i.name)+esc(b)+'</b><small>'+esc(i.kind||'')+' / '+i.w+'kg</small><div class="stats">'+statChips(i)+'</div>'+(i.note?'<p class="note">'+esc(i.note)+'</p>':'')+'</div>'+
+      '<div class="ib"><span class="num price">'+price+'</span><button class="btn sv small" data-act="buy" data-id="'+i.id+'"'+(can?'':' disabled')+'>買う</button><small>所持 '+owned+(cap>1?' / '+cap:'')+'</small></div></div>';
+  }).join('');
+  setKeep($('#ilist'),rows||'<div class="empty">この種類の品はありません。</div>');
+  /* 右: 装備と持ち物 */
+  var eq='<span class="eyebrow">LOADOUT</span><div class="eqg">';
+  SLOTS.forEach(function(s){
+    var id=m.eq[s[0]];
+    eq+='<div class="eq'+(id?'':' vac')+'"><small>'+s[1]+'</small><b>'+esc(nm(id))+'</b>'+(id?'<button class="btn line small" data-act="unequip" data-slot="'+s[0]+'">外す</button>':'')+'</div>';
+  });
+  eq+='</div><span class="eyebrow">POSSESSIONS</span><div class="own">';
+  var any=false;
+  CAT.forEach(function(i){
+    var n=m.inv[i.id];if(!n)return;any=true;
+    var s=slotFor(i),btn='';
+    if(s)btn=m.eq[s]===i.id?'<span class="chip good">装備中</span>':'<button class="btn line small" data-act="equip" data-slot="'+s+'" data-id="'+i.id+'">装備</button>';
+    else if(i.cat==='gadget'&&!i.noSlot)btn=(m.eq.g1===i.id||m.eq.g2===i.id)?'<span class="chip good">支給品'+(m.eq.g1===i.id?1:2)+'</span>':'<button class="btn line small" data-act="equip" data-slot="g1" data-id="'+i.id+'">支給1</button><button class="btn line small" data-act="equip" data-slot="g2" data-id="'+i.id+'">支給2</button>';
+    eq+='<div class="orow"><span>'+esc(i.name)+(n>1?' ×'+n:'')+'</span><span class="obt">'+btn+'</span></div>';
+  });
+  if(!any)eq+='<div class="empty">まだ何もありません。</div>';
+  eq+='</div>';
+  setKeep(mine,eq);
+}
+
+/* ---------- 感染者の画面(施設の強化) ---------- */
+function placeable(tx,ty){
+  var lv=G.lv,b=lv.bld;
+  if(tx<b.x||ty<b.y||tx>=b.x+b.w||ty>=b.y+b.h)return false;
+  if(lv.map[ty][tx]!==0)return false;
+  var cx=tx+.5,cy=ty+.5;
+  if(Math.hypot(cx-G.info.spawn.x,cy-G.info.spawn.y)<CFG.noPlace)return false;
+  var st=lv.stairs||[];for(var i=0;i<st.length;i++)if(Math.hypot(cx-st[i].x,cy-st[i].y)<1.5)return false;
+  return true;
+}
+function unitAt(tx,ty){var u=G.inf.units;for(var i=0;i<u.length;i++)if(Math.floor(u[i].x)===tx&&Math.floor(u[i].y)===ty)return i;return -1}
+function mapClick(tx,ty){
+  if(!G||G.phase!=='prep')return;
+  var lv=G.lv,inf=G.inf,k=ty*lv.W+tx;
+  if(tx<0||ty<0||tx>=lv.W||ty>=lv.H)return;
+  if(G.tool==='lock'){
+    if(inf.locks[k]){delete inf.locks[k];inf.cost=Math.min(inf.max,inf.cost+LOCKCOST);dirty=true;return}
+    if(lv.map[ty][tx]===3&&inf.cost>=LOCKCOST){inf.locks[k]=1;inf.cost-=LOCKCOST;dirty=true}
+    return;
+  }
+  var ui=unitAt(tx,ty);
+  if(ui>=0){var u=inf.units[ui];inf.cost=Math.min(inf.max,inf.cost+UNITS[u.k].cost);inf.units.splice(ui,1);dirty=true;return}
+  var def=UNITS[G.tool];if(!def||!placeable(tx,ty)||inf.cost<def.cost)return;
+  inf.units.push({id:inf.nid++,k:G.tool,x:tx+.5,y:ty+.5});inf.cost-=def.cost;dirty=true;
+}
+function paintInfected(){
+  if(!G||!$('#ihead'))return;
+  var inf=G.inf,pr=G.phase==='prep';
+  var label=pr?'準備時間':G.phase==='play'?'本編':'終了';
+  var h='<div class="hrow"><div><span class="eyebrow">ROUND '+G.round+' / '+CFG.rounds+'</span><h2>'+FN[fiOf(G.round)]+' の守りを固める</h2></div>'+
+    '<div class="hbox"><small>コスト</small><b class="num">'+Math.floor(inf.cost)+' / '+inf.max+'</b></div>'+
+    '<div class="hbox"><small>'+label+'</small><b class="num">'+(pr?mmss(G.rem):'—')+'</b></div></div>'+
+    '<div class="gauge"><i style="width:'+Math.round(100*inf.cost/inf.max)+'%"></i></div><div class="surv">';
+  for(var i=0;i<3;i++){
+    var p=G.players[i],on=S.sl[i]&&S.sl[i].up;
+    h+='<div class="sv'+(on?'':' off')+'" style="--pc:'+COL[i]+'"><span class="tag">'+(i+1)+'P</span>'+(on?'<span><b>'+esc(nm(p.eq.main!=null?p.eq.main:p.eq.sub))+'</b><small>'+esc(nm(p.eq.body))+' / '+esc(nm(p.eq.head))+' / '+p.money+'</small></span>':'<span><small>不在</small></span>')+'</div>';
+  }
+  h+='</div><div class="btnrow">';
+  if(pr)h+='<button class="btn inf" data-act="prepok">準備完了(すぐ始める)</button>';
+  else if(G.phase==='play')h+='<button class="btn inf" data-act="nextround">このラウンドを終える(仮)</button>';
+  else h+='<span class="chip good">3ラウンド終了(仮)</span>';
+  h+='<button class="btn line" data-act="leave">部屋を閉じる</button></div>';
+  setKeep($('#ihead'),h);
+  var tools='';
+  Object.keys(UNITS).forEach(function(k){var u=UNITS[k];tools+='<button class="tl'+(G.tool===k?' on':'')+'" data-act="tool" data-v="'+k+'" style="--tc:'+u.col+'"'+(pr?'':' disabled')+'><b>'+u.ch+'</b><span>'+u.name+'</span><small class="num">'+u.cost+'</small></button>'});
+  tools+='<button class="tl'+(G.tool==='lock'?' on':'')+'" data-act="tool" data-v="lock" style="--tc:#e5533d"'+(pr?'':' disabled')+'><b>鍵</b><span>ドアを施錠</span><small class="num">'+LOCKCOST+'</small></button>';
+  setKeep($('#tools'),tools);
+  var hint=pr?(G.tool==='lock'?'ドアをタップして施錠します。もう一度タップすると解除します。':'部屋や廊下をタップして置きます。置いた物をもう一度タップすると取り除いて、コストが戻ります。オレンジの円の中は置けません。'):'配置は固定されました。';
+  var hp=$('#ihint');if(hp&&hp.textContent!==hint)hp.textContent=hint;
+  if(dirty){dirty=false;drawMap()}
+}
+var TCOL={0:'#20302f',1:'#7b8b8f',2:'#4d4538',3:'#c9962b',4:'#c4452f',5:'#8a7a44'};
+function drawMap(){
+  var cv=$('#cv');if(!cv||!G)return;var lv=G.lv,wrap=$('#cvw');
+  var avail=Math.max(300,(wrap.clientWidth||600));
+  var ts=Math.max(8,Math.min(28,Math.floor(avail/lv.W)));
+  var w=lv.W*ts,h=lv.H*ts,dpr=2;
+  if(cv.width!==w*dpr||cv.height!==h*dpr){cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px'}
+  var c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
+  c.fillStyle='#0d1213';c.fillRect(0,0,w,h);
+  for(var y=0;y<lv.H;y++)for(var x=0;x<lv.W;x++){
+    var v=lv.map[y][x],k=y*lv.W+x;if(G.inf.locks[k])v=4;
+    var inb=x>=lv.bld.x&&y>=lv.bld.y&&x<lv.bld.x+lv.bld.w&&y<lv.bld.y+lv.bld.h;
+    c.fillStyle=(v===0&&!inb)?'#161d1e':TCOL[v];c.fillRect(x*ts,y*ts,ts,ts);
+    if(v===3||v===4||v===5){c.fillStyle=TCOL[v];c.fillRect(x*ts,y*ts,ts,ts);c.strokeStyle='#14181a';c.lineWidth=1;c.strokeRect(x*ts+2,y*ts+2,ts-4,ts-4)}
+    if(G.inf.locks[k]){c.fillStyle='#fff';c.font='bold '+Math.floor(ts*.6)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('鍵',x*ts+ts/2,y*ts+ts/2+1)}
+  }
+  /* 置けない範囲 */
+  var sp=G.info.spawn;
+  c.beginPath();c.arc(sp.x*ts,sp.y*ts,CFG.noPlace*ts,0,6.2832);c.fillStyle='rgba(240,144,46,.10)';c.fill();c.strokeStyle='rgba(240,144,46,.7)';c.lineWidth=1.5;c.setLineDash([5,4]);c.stroke();c.setLineDash([]);
+  function mark(p,txt,col){c.beginPath();c.arc(p.x*ts,p.y*ts,ts*.62,0,6.2832);c.fillStyle=col;c.fill();c.fillStyle='#14181a';c.font='bold '+Math.floor(ts*.7)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(txt,p.x*ts,p.y*ts+1)}
+  (lv.stairs||[]).forEach(function(s){mark(s,s.to<lv.fi?'上':'下','#e7e2d3')});
+  mark(G.info.goal,G.info.goal.k==='exit'?'出':'上','#8cc152');
+  mark(sp,'始','#f0902e');
+  /* 最初からいる敵 */
+  (lv.enemies||[]).forEach(function(e){
+    var col=(e[0]==='mutrunner')?'#c3dc3a':(e[0]==='mutbrute')?'#4f9e78':'#7ac24a';
+    c.beginPath();c.arc(e[1]*ts,e[2]*ts,ts*.3,0,6.2832);c.fillStyle=col;c.globalAlpha=.55;c.fill();c.globalAlpha=1;
+  });
+  /* 置いた敵 */
+  G.inf.units.forEach(function(u){
+    var d=UNITS[u.k];c.beginPath();c.arc(u.x*ts,u.y*ts,ts*.42,0,6.2832);c.fillStyle=d.col;c.fill();c.lineWidth=2;c.strokeStyle='#fff';c.stroke();
+    c.fillStyle='#14181a';c.font='bold '+Math.floor(ts*.55)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(d.ch,u.x*ts,u.y*ts+1);
+  });
+}
+
+/* ---------- 操作の受け口 ---------- */
+function gameClick(a,b,e){
+  if(a==='start')startGame();
+  else if(a==='tab'){tab=b.getAttribute('data-v');dirty=true;paintGame()}
+  else if(a==='buy')send(S.ctl,{t:'buy',id:b.getAttribute('data-id')});
+  else if(a==='equip')send(S.ctl,{t:'eq',slot:b.getAttribute('data-slot'),id:b.getAttribute('data-id')});
+  else if(a==='unequip')send(S.ctl,{t:'eq',slot:b.getAttribute('data-slot'),id:null});
+  else if(a==='tool'){if(G){G.tool=b.getAttribute('data-v');dirty=true;paintGame()}}
+  else if(a==='prepok')endPrep();
+  else if(a==='nextround')nextRound();
+}
+function canvasClick(e){
+  if(!G)return;var cv=$('#cv');var r=cv.getBoundingClientRect();
+  var tx=Math.floor((e.clientX-r.left)/(r.width/G.lv.W)),ty=Math.floor((e.clientY-r.top)/(r.height/G.lv.H));
+  mapClick(tx,ty);paintGame();
+}
 
 go('title');
 })();
