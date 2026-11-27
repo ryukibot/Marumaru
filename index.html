@@ -104,6 +104,12 @@ button[disabled]{cursor:default}
 .nt.good{border-color:var(--ok);color:var(--ok)}
 .nt.warn{border-color:var(--warn);color:var(--warn)}
 /* ゲーム本編の画面 */
+.cams{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cb{min-height:44px;padding:0 14px;border:1px solid var(--line);background:var(--panel-2);font-weight:900;font-size:13px;letter-spacing:.06em;display:inline-flex;align-items:center;gap:6px}
+.cb small{color:var(--inf);font:600 12px var(--f-mono)}
+.cb.on{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.cb.on small{color:var(--ink)}
+.camnote{font-size:12.5px;color:var(--dim);margin-left:auto}
 .gm{display:flex;flex-direction:column;gap:14px;min-width:0}
 .hrow{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
 .hrow h2{margin:2px 0 0;font:900 28px/1.1 var(--f-display);letter-spacing:.06em}
@@ -127,7 +133,7 @@ button[disabled]{cursor:default}
 .tl.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
 .tl[disabled]{opacity:.45}
 .cvwrap{overflow:auto;border:1px solid var(--line);background:#0d1213;max-width:100%}
-.cvwrap canvas{display:block;touch-action:manipulation}
+.cvwrap canvas{display:block;margin:0 auto;touch-action:manipulation}
 .shop{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;align-items:start}
 @media (max-width:760px){.shop{grid-template-columns:minmax(0,1fr)}}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
@@ -1518,6 +1524,7 @@ function joinedIdx(){var a=[];for(var i=0;i<3;i++)if(S.sl[i]&&S.sl[i].up)a.push(
 function canStart(){var a=joinedIdx();if(!a.length)return false;for(var i=0;i<a.length;i++)if(!S.sl[a[i]].rd)return false;return true}
 function setupRound(){
   G.lv=G.lvs[fiOf(G.round)];G.info=levelInfo(G.lv);
+  var rr=calcRooms(G.lv);G.rooms=rr.list;G.rid=rr.id;G.cam=null;
   G.inf={max:CFG.costMax+(G.round-1)*CFG.costR,cost:0,units:[],locks:{},nid:1};
   G.inf.cost=G.inf.max;
   G.phase='prep';G.rem=CFG.prep;G.tool='mut';dirty=true;
@@ -1539,8 +1546,10 @@ function startLoop(){
     var n=performance.now(),dt=Math.min(.5,(n-lastT)/1000);lastT=n;
     if(S.host&&G){
       if(G.phase==='prep'){
-        G.rem-=dt;G.inf.cost=Math.min(G.inf.max,G.inf.cost+CFG.regen*dt);dirty=true;
+        G.rem-=dt;dirty=true;
         if(G.rem<=0)endPrep();
+      }else if(G.phase==='play'){
+        G.inf.cost=Math.min(G.inf.max,G.inf.cost+CFG.regen*dt);dirty=true;
       }
       secAcc+=dt;if(secAcc>=1){secAcc=0;broadcast({t:'tm',rem:Math.max(0,Math.ceil(G.rem))})}
     }else if(V&&V.phase==='prep'){V.rem=Math.max(0,V.rem-dt)}
@@ -1607,7 +1616,7 @@ function gameShell(){
   var m=$('#main');m.__h=null;
   if(S.host){
     m.innerHTML='<div class="gm"><section class="panel" id="ihead" style="--pc:var(--inf)"></section>'+
-      '<section class="panel" id="imap" style="--pc:var(--line)"><div class="tools" id="tools"></div><div class="cvwrap" id="cvw"><canvas id="cv"></canvas></div><p class="note" id="ihint"></p></section></div>';
+      '<section class="panel" id="imap" style="--pc:var(--line)"><div class="tools" id="tools"></div><div class="cams" id="cams"></div><div class="cvwrap" id="cvw"><canvas id="cv"></canvas></div><p class="note" id="ihint"></p></section></div>';
   }else{
     m.innerHTML='<div class="gm"><section class="panel" id="shead" style="--pc:var(--haz)"></section>'+
       '<div class="shop"><section class="panel" id="shopp" style="--pc:var(--line)"><div class="tabs" id="tabs"></div><div class="ilist" id="ilist"></div></section>'+
@@ -1686,16 +1695,16 @@ function placeable(tx,ty){
 }
 function unitAt(tx,ty){var u=G.inf.units;for(var i=0;i<u.length;i++)if(Math.floor(u[i].x)===tx&&Math.floor(u[i].y)===ty)return i;return -1}
 function mapClick(tx,ty){
-  if(!G||G.phase!=='prep')return;
+  if(!G||G.phase==='end'||G.cam==null)return;
   var lv=G.lv,inf=G.inf,k=ty*lv.W+tx;
   if(tx<0||ty<0||tx>=lv.W||ty>=lv.H)return;
   if(G.tool==='lock'){
-    if(inf.locks[k]){delete inf.locks[k];inf.cost=Math.min(inf.max,inf.cost+LOCKCOST);dirty=true;return}
+    if(inf.locks[k]){if(G.phase!=='prep')return;delete inf.locks[k];inf.cost=Math.min(inf.max,inf.cost+LOCKCOST);dirty=true;return}
     if(lv.map[ty][tx]===3&&inf.cost>=LOCKCOST){inf.locks[k]=1;inf.cost-=LOCKCOST;dirty=true}
     return;
   }
   var ui=unitAt(tx,ty);
-  if(ui>=0){var u=inf.units[ui];inf.cost=Math.min(inf.max,inf.cost+UNITS[u.k].cost);inf.units.splice(ui,1);dirty=true;return}
+  if(ui>=0){if(G.phase!=='prep')return;var u=inf.units[ui];inf.cost=Math.min(inf.max,inf.cost+UNITS[u.k].cost);inf.units.splice(ui,1);dirty=true;return}
   var def=UNITS[G.tool];if(!def||!placeable(tx,ty)||inf.cost<def.cost)return;
   inf.units.push({id:inf.nid++,k:G.tool,x:tx+.5,y:ty+.5});inf.cost-=def.cost;dirty=true;
 }
@@ -1718,46 +1727,142 @@ function paintInfected(){
   h+='<button class="btn line" data-act="leave">部屋を閉じる</button></div>';
   setKeep($('#ihead'),h);
   var tools='';
-  Object.keys(UNITS).forEach(function(k){var u=UNITS[k];tools+='<button class="tl'+(G.tool===k?' on':'')+'" data-act="tool" data-v="'+k+'" style="--tc:'+u.col+'"'+(pr?'':' disabled')+'><b>'+u.ch+'</b><span>'+u.name+'</span><small class="num">'+u.cost+'</small></button>'});
-  tools+='<button class="tl'+(G.tool==='lock'?' on':'')+'" data-act="tool" data-v="lock" style="--tc:#e5533d"'+(pr?'':' disabled')+'><b>鍵</b><span>ドアを施錠</span><small class="num">'+LOCKCOST+'</small></button>';
+  Object.keys(UNITS).forEach(function(k){var u=UNITS[k];tools+='<button class="tl'+(G.tool===k?' on':'')+'" data-act="tool" data-v="'+k+'" style="--tc:'+u.col+'"'+(G.phase==='end'?' disabled':'')+'><b>'+u.ch+'</b><span>'+u.name+'</span><small class="num">'+u.cost+'</small></button>'});
+  tools+='<button class="tl'+(G.tool==='lock'?' on':'')+'" data-act="tool" data-v="lock" style="--tc:#e5533d"'+(G.phase==='end'?' disabled':'')+'><b>鍵</b><span>ドアを施錠</span><small class="num">'+LOCKCOST+'</small></button>';
   setKeep($('#tools'),tools);
-  var hint=pr?(G.tool==='lock'?'ドアをタップして施錠します。もう一度タップすると解除します。':'部屋や廊下をタップして置きます。置いた物をもう一度タップすると取り除いて、コストが戻ります。オレンジの円の中は置けません。'):'配置は固定されました。';
+  var cams='<button class="cb'+(G.cam==null?' on':'')+'" data-act="cam" data-v="">俯瞰</button>';
+  G.rooms.forEach(function(r,i){
+    var n=unitsIn(r);
+    cams+='<button class="cb'+(G.cam===i?' on':'')+'" data-act="cam" data-v="'+i+'">CAM '+(i+1)+(n?'<small>敵'+n+'</small>':'')+'</button>';
+  });
+  if(G.cam!=null){var cr=G.rooms[G.cam];cams+='<span class="camnote">CAM '+(G.cam+1)+' / 敵 '+unitsIn(cr)+' / 生存者 '+survIn(cr)+'</span>'}
+  setKeep($('#cams'),cams);
+  var hint;
+  if(G.cam==null)hint='マップ全体は、部屋の位置が分かる程度にしか見えません。部屋のカメラ(CAM)を選ぶと、その部屋の中を詳しく見られます。';
+  else if(G.phase==='prep')hint=(G.tool==='lock'?'ドアをタップして施錠します。もう一度タップすると解除します。':'部屋の床をタップして置きます。置いた物をもう一度タップすると取り除いて、コストが戻ります。オレンジの円の中は置けません。');
+  else hint=G.phase==='play'?'本編中に置くとコストを使います。置いた物は取り除けません。':'配置は固定されました。';
   var hp=$('#ihint');if(hp&&hp.textContent!==hint)hp.textContent=hint;
   if(dirty){dirty=false;drawMap()}
 }
 var TCOL={0:'#20302f',1:'#7b8b8f',2:'#4d4538',3:'#c9962b',4:'#c4452f',5:'#8a7a44'};
+/* 部屋 = 壁とドアで区切られた、床のつながり。1つの部屋に1台の監視カメラ */
+function calcRooms(lv){
+  var W=lv.W,bd=lv.bld,id=new Int8Array(W*lv.H).fill(-1),rooms=[];
+  for(var y=bd.y;y<bd.y+bd.h;y++)for(var x=bd.x;x<bd.x+bd.w;x++){
+    if(id[y*W+x]>=0||(lv.map[y][x]!==0&&lv.map[y][x]!==2))continue;
+    var n=rooms.length,q=[[x,y]],x0=x,x1=x,y0=y,y1=y;id[y*W+x]=n;
+    for(var h=0;h<q.length;h++){
+      var c=q[h];x0=Math.min(x0,c[0]);x1=Math.max(x1,c[0]);y0=Math.min(y0,c[1]);y1=Math.max(y1,c[1]);
+      for(var d=0;d<4;d++){
+        var nx=c[0]+(d===0?1:d===1?-1:0),ny=c[1]+(d===2?1:d===3?-1:0);
+        if(nx<bd.x||ny<bd.y||nx>=bd.x+bd.w||ny>=bd.y+bd.h||id[ny*W+nx]>=0)continue;
+        var v=lv.map[ny][nx];if(v!==0&&v!==2)continue;
+        id[ny*W+nx]=n;q.push([nx,ny]);
+      }
+    }
+    rooms.push({n:n,x0:x0,y0:y0,x1:x1,y1:y1,cells:q.length});
+  }
+  rooms=rooms.filter(function(r){return r.cells>=6});
+  rooms.sort(function(a,b2){return (Math.floor(a.y0/8)-Math.floor(b2.y0/8))||(a.x0-b2.x0)});
+  rooms.forEach(function(r,i){r.i=i});
+  return {list:rooms,id:id};
+}
+function inRoom(r,x,y){var tx=Math.floor(x),ty=Math.floor(y);return tx>=r.x0&&tx<=r.x1&&ty>=r.y0&&ty<=r.y1&&G.rid[ty*G.lv.W+tx]===r.n}
+function roomAt(tx,ty){
+  for(var i=0;i<G.rooms.length;i++)if(inRoom(G.rooms[i],tx+.5,ty+.5))return i;
+  for(var j=0;j<G.rooms.length;j++){var r=G.rooms[j];if(tx>=r.x0-1&&tx<=r.x1+1&&ty>=r.y0-1&&ty<=r.y1+1)return j}
+  return -1;
+}
+function unitsIn(r){var n=0;G.inf.units.forEach(function(u){if(inRoom(r,u.x,u.y))n++});return n}
+function survIn(r){var n=0;(G.ents||[]).forEach(function(e){if(inRoom(r,e.x,e.y))n++});return n}
 function drawMap(){
   var cv=$('#cv');if(!cv||!G)return;var lv=G.lv,wrap=$('#cvw');
   var avail=Math.max(300,(wrap.clientWidth||600));
-  var ts=Math.max(8,Math.min(28,Math.floor(avail/lv.W)));
-  var w=lv.W*ts,h=lv.H*ts,dpr=2;
+  var cam=G.cam!=null?G.rooms[G.cam]:null,ox=0,oy=0,vw=lv.W,vh=lv.H,ts;
+  if(cam){ox=cam.x0-1;oy=cam.y0-1;vw=cam.x1-cam.x0+3;vh=cam.y1-cam.y0+3;ts=Math.max(14,Math.min(46,Math.floor(avail/vw),Math.floor(540/vh)))}
+  else ts=Math.max(8,Math.min(24,Math.floor(avail/lv.W)));
+  var w=vw*ts,h=vh*ts,dpr=2;
+  G.vw={ox:ox,oy:oy,ts:ts,w:vw,h:vh};
   if(cv.width!==w*dpr||cv.height!==h*dpr){cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px'}
   var c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
-  c.fillStyle='#0d1213';c.fillRect(0,0,w,h);
-  for(var y=0;y<lv.H;y++)for(var x=0;x<lv.W;x++){
-    var v=lv.map[y][x],k=y*lv.W+x;if(G.inf.locks[k])v=4;
-    var inb=x>=lv.bld.x&&y>=lv.bld.y&&x<lv.bld.x+lv.bld.w&&y<lv.bld.y+lv.bld.h;
-    c.fillStyle=(v===0&&!inb)?'#161d1e':TCOL[v];c.fillRect(x*ts,y*ts,ts,ts);
-    if(v===3||v===4||v===5){c.fillStyle=TCOL[v];c.fillRect(x*ts,y*ts,ts,ts);c.strokeStyle='#14181a';c.lineWidth=1;c.strokeRect(x*ts+2,y*ts+2,ts-4,ts-4)}
-    if(G.inf.locks[k]){c.fillStyle='#fff';c.font='bold '+Math.floor(ts*.6)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('鍵',x*ts+ts/2,y*ts+ts/2+1)}
+  c.fillStyle='#0a0f10';c.fillRect(0,0,w,h);
+  if(cam)drawCam(c,ts,cam,ox,oy,vw,vh);else drawOverview(c,ts);
+}
+function pmark(c,ts,x,y,txt,col,rad){
+  c.beginPath();c.arc(x,y,rad,0,6.2832);c.fillStyle=col;c.fill();
+  c.fillStyle='#14181a';c.font='bold '+Math.floor(rad*1.15)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(txt,x,y+1);
+}
+/* 俯瞰: 部屋の位置と数だけ。床の様子や敵の動きは分からない */
+function drawOverview(c,ts){
+  var lv=G.lv,bd=lv.bld;
+  c.strokeStyle='#26363b';c.lineWidth=2;c.strokeRect(bd.x*ts,bd.y*ts,bd.w*ts,bd.h*ts);
+  G.rooms.forEach(function(r){
+    var x=r.x0*ts,y=r.y0*ts,w=(r.x1-r.x0+1)*ts,h=(r.y1-r.y0+1)*ts;
+    c.fillStyle='#16242a';c.fillRect(x,y,w,h);
+    c.strokeStyle='#3f5e68';c.lineWidth=2;c.strokeRect(x+1,y+1,w-2,h-2);
+    var fs=Math.max(11,Math.min(20,Math.floor(ts*1.0)));
+    c.fillStyle='#b9c7ca';c.font='bold '+fs+'px sans-serif';c.textAlign='center';c.textBaseline='middle';
+    c.fillText('CAM '+(r.i+1),x+w/2,y+h/2-fs*.4);
+    /* カメラの印 */
+    c.beginPath();c.arc(x+10,y+10,4,0,6.2832);c.fillStyle='#e5533d';c.fill();
+    var n=unitsIn(r);
+    if(n){c.fillStyle='#b7d94a';c.font='bold '+Math.max(10,fs-4)+'px sans-serif';c.fillText('敵 '+n,x+w/2,y+h/2+fs*.8)}
+    if(G.cam===r.i){c.strokeStyle='#e7e2d3';c.lineWidth=3;c.strokeRect(x+2,y+2,w-4,h-4)}
+  });
+  /* ドアの位置(目印だけ) */
+  for(var yy=bd.y;yy<bd.y+bd.h;yy++)for(var xx=bd.x;xx<bd.x+bd.w;xx++){
+    var v=lv.map[yy][xx],k=yy*lv.W+xx;if(G.inf.locks[k])v=4;
+    if(v===3||v===4){c.fillStyle=v===4?'#e5533d':'#c9962b';c.fillRect(xx*ts+ts*.2,yy*ts+ts*.2,ts*.6,ts*.6)}
   }
+  var sp=G.info.spawn,gl=G.info.goal;
+  pmark(c,ts,sp.x*ts,sp.y*ts,'始','#f0902e',ts*.7);
+  pmark(c,ts,gl.x*ts,gl.y*ts,gl.k==='exit'?'出':'上','#8cc152',ts*.7);
+}
+/* カメラ: 1つの部屋を拡大して、中のようすを詳しく見る */
+function drawCam(c,ts,cam,ox,oy,vw,vh){
+  var lv=G.lv;
+  for(var y=oy;y<oy+vh;y++)for(var x=ox;x<ox+vw;x++){
+    if(x<0||y<0||x>=lv.W||y>=lv.H)continue;
+    var v=lv.map[y][x],k=y*lv.W+x;if(G.inf.locks[k])v=4;
+    var px=(x-ox)*ts,py=(y-oy)*ts;
+    c.fillStyle=TCOL[v];c.fillRect(px,py,ts,ts);
+    if(v===0){c.strokeStyle='rgba(255,255,255,.045)';c.lineWidth=1;c.strokeRect(px+.5,py+.5,ts-1,ts-1)}
+    if(v===2){c.fillStyle='rgba(0,0,0,.25)';c.fillRect(px+3,py+3,ts-6,ts-6)}
+    if(v===3||v===4||v===5){c.strokeStyle='#14181a';c.lineWidth=2;c.strokeRect(px+3,py+3,ts-6,ts-6)}
+    if(G.inf.locks[k]){c.fillStyle='#fff';c.font='bold '+Math.floor(ts*.55)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('鍵',px+ts/2,py+ts/2+1)}
+  }
+  function P(x,y){return [(x-ox)*ts,(y-oy)*ts]}
   /* 置けない範囲 */
   var sp=G.info.spawn;
-  c.beginPath();c.arc(sp.x*ts,sp.y*ts,CFG.noPlace*ts,0,6.2832);c.fillStyle='rgba(240,144,46,.10)';c.fill();c.strokeStyle='rgba(240,144,46,.7)';c.lineWidth=1.5;c.setLineDash([5,4]);c.stroke();c.setLineDash([]);
-  function mark(p,txt,col){c.beginPath();c.arc(p.x*ts,p.y*ts,ts*.62,0,6.2832);c.fillStyle=col;c.fill();c.fillStyle='#14181a';c.font='bold '+Math.floor(ts*.7)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(txt,p.x*ts,p.y*ts+1)}
-  (lv.stairs||[]).forEach(function(s){mark(s,s.to<lv.fi?'上':'下','#e7e2d3')});
-  mark(G.info.goal,G.info.goal.k==='exit'?'出':'上','#8cc152');
-  mark(sp,'始','#f0902e');
+  if(Math.abs(sp.x-(cam.x0+cam.x1+1)/2)<CFG.noPlace+(cam.x1-cam.x0)/2+1&&Math.abs(sp.y-(cam.y0+cam.y1+1)/2)<CFG.noPlace+(cam.y1-cam.y0)/2+1){
+    var s=P(sp.x,sp.y);c.save();c.beginPath();c.rect(0,0,vw*ts,vh*ts);c.clip();
+    c.beginPath();c.arc(s[0],s[1],CFG.noPlace*ts,0,6.2832);c.fillStyle='rgba(240,144,46,.12)';c.fill();c.strokeStyle='rgba(240,144,46,.8)';c.lineWidth=2;c.setLineDash([6,5]);c.stroke();c.setLineDash([]);c.restore();
+  }
+  /* 階段・出口・出発点(この部屋の中にあるものだけ) */
+  (lv.stairs||[]).forEach(function(s){if(inRoom(cam,s.x,s.y)){var q=P(s.x,s.y);pmark(c,ts,q[0],q[1],s.to<lv.fi?'上':'下','#e7e2d3',ts*.5)}});
+  var gl=G.info.goal;if(inRoom(cam,gl.x,gl.y)){var g=P(gl.x,gl.y);pmark(c,ts,g[0],g[1],gl.k==='exit'?'出':'上','#8cc152',ts*.5)}
+  if(inRoom(cam,sp.x,sp.y)){var s2=P(sp.x,sp.y);pmark(c,ts,s2[0],s2[1],'始','#f0902e',ts*.5)}
   /* 最初からいる敵 */
   (lv.enemies||[]).forEach(function(e){
+    if(!inRoom(cam,e[1],e[2]))return;var q=P(e[1],e[2]);
     var col=(e[0]==='mutrunner')?'#c3dc3a':(e[0]==='mutbrute')?'#4f9e78':'#7ac24a';
-    c.beginPath();c.arc(e[1]*ts,e[2]*ts,ts*.3,0,6.2832);c.fillStyle=col;c.globalAlpha=.55;c.fill();c.globalAlpha=1;
+    c.beginPath();c.arc(q[0],q[1],ts*.34,0,6.2832);c.fillStyle=col;c.globalAlpha=.6;c.fill();c.globalAlpha=1;
   });
   /* 置いた敵 */
   G.inf.units.forEach(function(u){
-    var d=UNITS[u.k];c.beginPath();c.arc(u.x*ts,u.y*ts,ts*.42,0,6.2832);c.fillStyle=d.col;c.fill();c.lineWidth=2;c.strokeStyle='#fff';c.stroke();
-    c.fillStyle='#14181a';c.font='bold '+Math.floor(ts*.55)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(d.ch,u.x*ts,u.y*ts+1);
+    if(!inRoom(cam,u.x,u.y))return;var q=P(u.x,u.y),d=UNITS[u.k];
+    c.beginPath();c.arc(q[0],q[1],ts*.42,0,6.2832);c.fillStyle=d.col;c.fill();c.lineWidth=2;c.strokeStyle='#fff';c.stroke();
+    c.fillStyle='#14181a';c.font='bold '+Math.floor(ts*.5)+'px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(d.ch,q[0],q[1]+1);
   });
+  /* 生存者(本編でここに動きが入る) */
+  (G.ents||[]).forEach(function(e){
+    if(!inRoom(cam,e.x,e.y))return;var q=P(e.x,e.y);
+    c.beginPath();c.arc(q[0],q[1],ts*.4,0,6.2832);c.fillStyle=e.col||'#f0902e';c.fill();c.lineWidth=2;c.strokeStyle='#fff';c.stroke();
+  });
+  /* カメラ映像の飾り */
+  c.fillStyle='#e5533d';c.beginPath();c.arc(14,14,5,0,6.2832);c.fill();
+  c.fillStyle='#e7e2d3';c.font='bold 13px sans-serif';c.textAlign='left';c.textBaseline='middle';c.fillText('CAM '+(cam.i+1)+'  REC',26,14);
+  c.strokeStyle='rgba(231,226,211,.35)';c.lineWidth=2;c.strokeRect(1,1,vw*ts-2,vh*ts-2);
 }
 
 /* ---------- 操作の受け口 ---------- */
@@ -1768,12 +1873,14 @@ function gameClick(a,b,e){
   else if(a==='equip')send(S.ctl,{t:'eq',slot:b.getAttribute('data-slot'),id:b.getAttribute('data-id')});
   else if(a==='unequip')send(S.ctl,{t:'eq',slot:b.getAttribute('data-slot'),id:null});
   else if(a==='tool'){if(G){G.tool=b.getAttribute('data-v');dirty=true;paintGame()}}
+  else if(a==='cam'){if(G){var v=b.getAttribute('data-v');G.cam=(v===''||v==null)?null:+v;dirty=true;paintGame()}}
   else if(a==='prepok')endPrep();
   else if(a==='nextround')nextRound();
 }
 function canvasClick(e){
-  if(!G)return;var cv=$('#cv');var r=cv.getBoundingClientRect();
-  var tx=Math.floor((e.clientX-r.left)/(r.width/G.lv.W)),ty=Math.floor((e.clientY-r.top)/(r.height/G.lv.H));
+  if(!G||!G.vw)return;var cv=$('#cv'),r=cv.getBoundingClientRect(),v=G.vw;
+  var tx=v.ox+Math.floor((e.clientX-r.left)/(r.width/v.w)),ty=v.oy+Math.floor((e.clientY-r.top)/(r.height/v.h));
+  if(G.cam==null){var ri=roomAt(tx,ty);if(ri>=0){G.cam=ri;dirty=true;paintGame()}return}
   mapClick(tx,ty);paintGame();
 }
 
