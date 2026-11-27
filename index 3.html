@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>深層脱出</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Mono:wght@500;600&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+/* 配置: 上に状態バー。役割選択は左右2枚のカード。ロビーは左=部屋番号と操作・通信状態、右=生存者3枠 */
+:root{
+  color-scheme:dark;
+  --bg:#14181a; --panel:#1c2225; --panel-2:#252c30; --line:#364047;
+  --fg:#e7e2d3; --dim:#98a3a6; --ink:#14181a;
+  --inf:#b7d94a; --haz:#f2c230;
+  --p1:#f0902e; --p2:#4eb2c9; --p3:#b69cf0;
+  --ok:#8cc152; --warn:#e8c545; --bad:#e5533d;
+  --f-display:"Big Shoulders Display","Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100%}
+body{
+  background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  -webkit-user-select:none;user-select:none;
+}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit;border-radius:0}
+button:focus-visible,input:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+button[disabled]{cursor:default}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+#app{display:flex;flex-direction:column;gap:14px;padding-block:14px;min-height:100vh;max-width:1100px;margin-inline:auto}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.brand{display:flex;flex-direction:column;gap:3px;line-height:1}
+.brand b{font:900 32px/1 var(--f-display);letter-spacing:.1em}
+.brand span{font-size:11px;color:var(--dim);letter-spacing:.2em}
+.sp{margin-left:auto}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px;border:1px solid var(--line);background:var(--panel-2);font:600 12.5px var(--f-mono);letter-spacing:.02em;white-space:nowrap}
+.chip.good{border-color:var(--ok);color:var(--ok)}
+.chip.warn{border-color:var(--warn);color:var(--warn)}
+.chip.bad{border-color:var(--bad);color:var(--bad)}
+.chip i{width:8px;height:8px;background:currentColor;display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 24px;border:1px solid var(--line);background:var(--panel-2);font-weight:900;letter-spacing:.1em;font-size:16px}
+.btn.inf{background:var(--inf);border-color:var(--inf);color:var(--ink)}
+.btn.sv{background:var(--haz);border-color:var(--haz);color:var(--ink)}
+.btn.line{background:none}
+.btn.on{background:var(--ok);border-color:var(--ok);color:var(--ink)}
+.btn[disabled]{opacity:.38}
+.btn.small{min-height:44px;font-size:14px;padding:0 16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--pc,var(--fg));padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel h2{margin:0;font:900 30px/1.1 var(--f-display);letter-spacing:.06em}
+.panel p{margin:0;color:var(--dim);font-size:14px;line-height:1.6}
+.tag{font:900 26px/1 var(--f-display);color:var(--ink);background:var(--pc,var(--fg));padding:5px 11px 4px;letter-spacing:.05em;flex:none}
+.eyebrow{font:600 11px var(--f-mono);letter-spacing:.2em;color:var(--pc,var(--dim))}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+.role{min-height:260px}
+.role .btn{margin-top:auto}
+.role.inf{--pc:var(--inf)}
+.role.sv{--pc:var(--haz)}
+.note{font-size:12.5px;color:var(--dim);line-height:1.6}
+.note b{color:var(--fg)}
+.backrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.backrow h2{margin:0;font:900 28px/1 var(--f-display);letter-spacing:.06em}
+.codeform{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.codeform input{min-height:54px;width:9em;padding:0 14px;background:#0e1214;border:1px solid var(--line);color:var(--fg);font:600 28px var(--f-mono);letter-spacing:.3em;text-align:center;-webkit-user-select:text;user-select:text}
+.err{color:var(--bad);font-size:14px;min-height:21px}
+.room{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:14px;align-items:start}
+@media (max-width:760px){.room{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.bigcode{font:900 clamp(64px,14vw,104px)/1 var(--f-display);letter-spacing:.16em;color:var(--inf);padding-left:.16em}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.slots{display:flex;flex-direction:column;gap:10px}
+.slot{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;min-height:76px;padding:10px 14px;border:1px solid var(--line);background:var(--panel-2);border-left:4px solid var(--pc)}
+.slot.vacant{opacity:.55;border-left-color:var(--line)}
+.slot.vacant .tag{background:var(--line);color:var(--dim)}
+.sl-main{display:flex;flex-direction:column;min-width:0}
+.sl-main b{font-size:16px}
+.sl-main small{color:var(--dim);font-size:12px}
+.sl-st{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.mybadge{display:flex;align-items:center;gap:14px}
+.mybadge .tag{font-size:52px;padding:8px 20px 6px}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;align-items:baseline;font-size:14px;margin:0}
+.kv dt{color:var(--dim)}
+.kv dd{margin:0;font:600 18px var(--f-mono);font-variant-numeric:tabular-nums}
+.verdict{padding:10px 12px;border:1px solid var(--line);background:var(--panel-2);font-size:14px;line-height:1.55}
+.verdict.good{border-color:var(--ok)}
+.verdict.warn{border-color:var(--warn)}
+.verdict.bad{border-color:var(--bad)}
+@media (prefers-reduced-motion:no-preference){.chip i.live{animation:blink 1.2s steps(2) infinite}}
+@keyframes blink{50%{opacity:.25}}
+#dbg{margin-top:auto;border:1px solid var(--line);background:var(--panel);padding:8px 12px;font-size:12.5px;color:var(--dim)}
+#dbg summary{cursor:pointer;min-height:32px;display:flex;align-items:center}
+#log{margin:6px 0 0;font:500 12px/1.5 var(--f-mono);white-space:pre-wrap;word-break:break-all;color:var(--fg);-webkit-user-select:text;user-select:text;max-height:260px;overflow:auto}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="brand"><b>深層脱出</b><span>研究施設 最深部から地上へ</span></div>
+    <span class="sp"></span>
+    <span id="stat" class="chip"><i></i>通信 未接続</span>
+  </header>
+  <main id="main"></main>
+  <details id="dbg" open><summary>通信ログ(つながらないとき、ここの内容を教えてください)</summary><pre id="log"></pre></details>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- 設定 ---------- */
+var PFX='shinsou-t1-';           /* 部屋番号の前に付ける名前。ほかのアプリと被らないための印 */
+var PAD_H='x'.repeat(1400);      /* 親機→生存者の1回あたりの荷物(状態を想定) */
+var PAD_C='y'.repeat(300);       /* 生存者→親機の1回あたりの荷物(操作を想定) */
+var COL=['var(--p1)','var(--p2)','var(--p3)'];
+
+/* ---------- 状態 ---------- */
+var S={view:'title',host:false,code:'',peer:null,ready:false,busy:false,err:'',codeIn:'',relay:false,
+  link:'off',   /* off | open | down */
+  sl:[null,null,null],   /* 親機: {ctl,str,rd,rtt,id} */
+  ro:[{on:0},{on:0},{on:0}], /* 画面表示用の名簿 */
+  slot:-1,ctl:null,str:null,test:false,rtt:null,ema:null};
+var meters={};
+var tH=null,tC=null,tP=null,tk=0,ct=0,rq=0,tmo=0;
+
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+function setHTML(el,h){if(!el||el.__h===h)return;el.__h=h;el.innerHTML=h}
+function safe(fn){try{fn()}catch(e){}}
+
+/* ---------- 診断ログと接続設定 ---------- */
+var LOG=[];
+function L(m){var d=new Date();LOG.push(('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2)+' '+m);if(LOG.length>40)LOG.shift();schedule()}
+/* 中継サーバー(TURN)は、端末同士が直接つながれない回線で使われる。openrelay は公開の無料枠で、動くかは未確認 */
+var ICE=[
+  {urls:'stun:stun.l.google.com:19302'},
+  {urls:'stun:stun1.l.google.com:19302'},
+  {urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'},
+  {urls:['turn:openrelay.metered.ca:80','turn:openrelay.metered.ca:443','turns:openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'}
+];
+function makePeer(id){
+  var cfg={iceServers:ICE};if(S.relay)cfg.iceTransportPolicy='relay';
+  var o={debug:0,config:cfg};
+  return id?new Peer(id,o):new Peer(o);
+}
+function watch(conn,label){
+  var pc=conn&&conn.peerConnection;if(!pc||pc.__w)return;pc.__w=1;
+  var c={host:0,srflx:0,relay:0,other:0};
+  pc.addEventListener('icecandidate',function(e){
+    if(!e.candidate){L(label+' 候補 直接'+c.host+' 外部'+c.srflx+' 中継'+c.relay);return}
+    var m=/ typ (\w+)/.exec(e.candidate.candidate||'');var k=(m&&c[m[1]]!=null)?m[1]:'other';c[k]++;
+  });
+  pc.addEventListener('iceconnectionstatechange',function(){L(label+' ICE '+pc.iceConnectionState)});
+  pc.addEventListener('connectionstatechange',function(){L(label+' 接続 '+pc.connectionState)});
+}
+function paintLog(){var el=$('#log');if(!el)return;var t=LOG.slice(-16).join('\n');setHTML(el,t?esc(t):'(まだありません)')}
+
+/* ---------- 受信レートの計測 ---------- */
+function tick(key,v){
+  var n=performance.now(),m=meters[key];
+  if(!m)m=meters[key]={last:null,times:[],miss:0,got:0,maxGap:0,prevT:0};
+  if(m.last!=null&&v<=m.last)return;
+  if(m.last!=null&&v>m.last+1)m.miss+=v-m.last-1;
+  m.last=v;m.got++;
+  if(m.prevT)m.maxGap=Math.max(m.maxGap,n-m.prevT);
+  m.prevT=n;m.times.push(n);
+}
+function hz(k){var m=meters[k];if(!m)return 0;var n=performance.now();while(m.times.length&&n-m.times[0]>2000)m.times.shift();return m.times.length/2}
+function lossPct(k){var m=meters[k];if(!m||!m.got)return 0;return Math.round(100*m.miss/(m.miss+m.got))}
+function gapMs(k){var m=meters[k];return m?Math.round(m.maxGap):0}
+function resetMeters(){for(var k in meters)delete meters[k]}
+
+/* ---------- 画面 ---------- */
+function go(v){
+  S.view=v;var m=$('#main');m.__h=null;
+  if(v==='title'){
+    m.innerHTML=
+    '<section class="roles">'+
+      '<article class="panel role inf"><span class="eyebrow">INFECTED</span><h2>感染者</h2>'+
+      '<p>親機になって部屋をつくります。監視カメラから施設を見張り、罠と感染者で時間を稼ぎ、生存者を全滅させれば勝ちです。</p>'+
+      '<button class="btn inf" data-act="host">部屋をつくる</button></article>'+
+      '<article class="panel role sv"><span class="eyebrow">SURVIVOR</span><h2>生存者</h2>'+
+      '<p>3人で施設の最深部から地上を目指します。感染者の画面に出る4桁の番号で、その部屋に入ります。</p>'+
+      '<button class="btn sv" data-act="join">部屋に入る</button></article>'+
+    '</section><p class="note" id="hint"></p><div><button class="btn line small" id="relaybtn" data-act="relay"></button></div>';
+  }else if(v==='join'){
+    m.innerHTML=
+    '<div class="col"><div class="backrow"><button class="btn line small" data-act="back">戻る</button><h2>部屋に入る</h2></div>'+
+    '<section class="panel" style="--pc:var(--haz)"><span class="eyebrow">ROOM CODE</span>'+
+      '<p>感染者の画面に出ている4桁の番号を入れてください。</p>'+
+      '<div class="codeform"><input id="codein" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000" value="'+esc(S.codeIn)+'">'+
+      '<button class="btn sv" data-act="entercode">この番号で入る</button></div></section>'+
+    '<div class="err" id="joinmsg"></div></div>';
+  }else if(v==='room'){
+    m.innerHTML=
+    '<div class="room"><div class="col"><section class="panel" id="ctl" style="--pc:'+(S.host?'var(--inf)':'var(--haz)')+'"></section>'+
+    '<section class="panel" id="net" style="--pc:var(--line)"></section></div>'+
+    '<section class="panel" style="--pc:var(--line)"><span class="eyebrow">SURVIVORS</span><div class="slots" id="roster"></div></section></div>';
+  }
+  paint();
+}
+function qualCls(r){return r==null?'':r<80?'good':r<150?'warn':'bad'}
+function hzCls(v){return v>=24?'good':v>=15?'warn':'bad'}
+
+function paintStat(){
+  var el=$('#stat');if(!el)return;
+  var cls='chip',t,live='';
+  if(typeof Peer==='undefined'){cls+=' bad';t='通信部品を読めません'}
+  else if(S.link==='open'){cls+=' good';t='通信OK';live='live'}
+  else if(S.link==='down'){cls+=' bad';t='切断'}
+  else t='通信 未接続';
+  el.className=cls;el.innerHTML='<i class="'+live+'"></i>'+t;
+}
+function paintTitle(){
+  var h=$('#hint');if(!h)return;
+  var miss=typeof Peer==='undefined';
+  h.innerHTML=miss?'<b style="color:var(--bad)">通信の部品を読み込めませんでした。</b>ネットにつながっているか確認して、ページを開き直してください。'
+    :'4台とも、このページを同じURLで開いてください。感染者は1台だけが「部屋をつくる」を押します。';
+  if(S.err)h.innerHTML+='<br><b style="color:var(--bad)">'+esc(S.err)+'</b>';
+  var rb=$('#relaybtn');if(rb)rb.textContent='診断: 中継のみで接続 ['+(S.relay?'オン':'オフ')+']';
+  var b=document.querySelectorAll('.role .btn');for(var i=0;i<b.length;i++)b[i].disabled=miss||S.busy;
+}
+function paintJoin(){var m=$('#joinmsg');if(m)m.textContent=S.err}
+function readyCount(){var n=0;for(var i=0;i<3;i++)if(S.ro[i]&&S.ro[i].on&&S.ro[i].rd)n++;return n}
+function joinedCount(){var n=0;for(var i=0;i<3;i++)if(S.ro[i]&&S.ro[i].on)n++;return n}
+function paintCtl(){
+  var el=$('#ctl');if(!el)return;var h;
+  if(S.host){
+    h='<span class="eyebrow">ROOM CODE</span><div class="bigcode num">'+esc(S.code)+'</div>'+
+      '<p>生存者の端末で「部屋に入る」を押して、この番号を入れてください。</p>'+
+      '<div class="btnrow"><button class="btn inf" data-act="test">'+(S.test?'通信テストを止める':'通信テストを始める')+'</button>'+
+      '<button class="btn line" data-act="start" disabled>ゲーム開始</button>'+
+      '<button class="btn line" data-act="leave">部屋を閉じる</button></div>'+
+      '<p class="note">ゲーム画面は次の工程で作ります。いまは4台の通信が実用になるかを測る段階です。参加 '+joinedCount()+'人 / 準備OK '+readyCount()+'人。</p>';
+  }else if(S.slot>=0){
+    var s=S.slot;
+    h='<span class="eyebrow">YOU ARE</span><div class="mybadge"><span class="tag" style="--pc:'+COL[s]+'">'+(s+1)+'P</span><div><b>生存者 '+(s+1)+'P</b><p>部屋 <span class="num">'+esc(S.code)+'</span></p></div></div>'+
+      '<div class="btnrow"><button class="btn '+(S.ready?'on':'sv')+'" data-act="ready">'+(S.ready?'準備OK(取り消す)':'準備OK')+'</button>'+
+      '<button class="btn line" data-act="leave">部屋を出る</button></div>';
+  }else{
+    h='<span class="eyebrow">ROOM '+esc(S.code)+'</span><p>部屋に入っています。席の割り当てを待っています。</p><div class="btnrow"><button class="btn line" data-act="leave">部屋を出る</button></div>';
+  }
+  if(!S.host&&S.link==='down')h+='<div class="verdict bad">親機との通信が切れました。「部屋を出る」を押して、もう一度入ってください。</div>';
+  setHTML(el,h);
+}
+function paintRoster(){
+  var el=$('#roster');if(!el)return;var out=[];
+  for(var i=0;i<3;i++){
+    var r=S.ro[i]||{on:0},pc='style="--pc:'+COL[i]+'"';
+    if(!r.on){out.push('<div class="slot vacant" '+pc+'><span class="tag">'+(i+1)+'P</span><div class="sl-main"><b>空き</b><small>参加を待っています</small></div><div class="sl-st"></div></div>');continue}
+    var st=['<span class="chip '+(r.rd?'good':'')+'">'+(r.rd?'準備OK':'準備中')+'</span>'];
+    if(r.rtt!=null)st.push('<span class="chip '+qualCls(r.rtt)+'">'+r.rtt+'ms</span>');
+    if(S.host&&S.test){var v=hz('c'+i);st.push('<span class="chip '+hzCls(v)+'">上り '+v.toFixed(0)+'Hz</span>')}
+    out.push('<div class="slot" '+pc+'><span class="tag">'+(i+1)+'P</span><div class="sl-main"><b>'+(!S.host&&i===S.slot?'あなた':'生存者')+'</b><small>参加中</small></div><div class="sl-st">'+st.join('')+'</div></div>');
+  }
+  setHTML(el,out.join(''));
+}
+function paintNet(){
+  var el=$('#net');if(!el)return;var h='<span class="eyebrow">NETWORK TEST</span>';
+  if(S.host){
+    if(!S.test)h+='<p>通信テストを始めると、親機と各端末が毎秒約30回、状態を送り合います。ゲーム中と同じ負荷で、遅延と取りこぼしを測れます。</p>';
+    else{
+      var n=0,wr=0,wh=99,miss=0;
+      for(var i=0;i<3;i++){var r=S.ro[i];if(!r||!r.on)continue;n++;wr=Math.max(wr,r.rtt||0);wh=Math.min(wh,hz('c'+i));miss=Math.max(miss,lossPct('c'+i))}
+      if(!n)h+='<p>生存者が入るのを待っています。</p>';
+      else{
+        var bad=wr>=150||wh<15,warn=wr>=80||wh<24;
+        h+='<dl class="kv"><dt>最大の往復遅延</dt><dd>'+wr+' ms</dd><dt>上りの最低レート</dt><dd>'+wh.toFixed(0)+' Hz</dd><dt>上りの取りこぼし</dt><dd>'+miss+' %</dd></dl>'+
+          '<div class="verdict '+(bad?'bad':warn?'warn':'good')+'">'+(bad?'遅延か更新レートが厳しい状態です。同じWi-Fiの近くで試してください。':warn?'遊べる可能性はありますが、速い操作では遅れを感じるかもしれません。':'ゲームに使える通信状態です。')+'</div>';
+      }
+    }
+  }else{
+    var hh=hz('h');
+    h+='<dl class="kv"><dt>親機との往復遅延</dt><dd>'+(S.rtt==null?'—':S.rtt+' ms')+'</dd>';
+    if(S.test)h+='<dt>下りレート</dt><dd>'+hh.toFixed(0)+' Hz</dd><dt>下りの取りこぼし</dt><dd>'+lossPct('h')+' %</dd><dt>最大の途切れ</dt><dd>'+gapMs('h')+' ms</dd>';
+    h+='</dl>';
+    h+=S.test?'<div class="verdict '+(hh<15?'bad':hh<24?'warn':'good')+'">通信テスト中です。親機の状態を受け取れている回数を測っています。</div>':'<p class="note">親機が通信テストを始めると、ここにレートが出ます。</p>';
+  }
+  setHTML(el,h);
+}
+function paint(){
+  paintStat();
+  if(S.view==='title')paintTitle();else if(S.view==='join')paintJoin();
+  else if(S.view==='room'){paintCtl();paintRoster();paintNet()}
+  paintLog();
+}
+function schedule(){if(rq)return;rq=setTimeout(function(){rq=0;paint()},150)}
+
+/* ---------- 送受信の道具 ---------- */
+function send(c,d){if(c&&c.open)safe(function(){c.send(d)})}
+
+/* ---------- 親機 ---------- */
+function pushRoster(){
+  var ro=[];
+  for(var i=0;i<3;i++){var s=S.sl[i];ro.push(s?{on:1,rd:s.rd?1:0,rtt:s.rtt}:{on:0})}
+  S.ro=ro;
+  for(var j=0;j<3;j++)if(S.sl[j])send(S.sl[j].ctl,{t:'ro',s:ro,test:S.test?1:0});
+  schedule();
+}
+function hostIncoming(conn){
+  var k=conn.metadata&&conn.metadata.k;
+  L('親機: '+(k||'?')+' の接続要求');watch(conn,'親機'+(k||'?'));
+  if(k==='str'){
+    var idx=-1;for(var i=0;i<3;i++)if(S.sl[i]&&S.sl[i].id===conn.peer)idx=i;
+    if(idx<0){conn.on('open',function(){safe(function(){conn.close()})});return}
+    S.sl[idx].str=conn;
+    conn.on('data',function(d){
+      if(!d)return;
+      if(d.t==='c'&&typeof d.n==='number')tick('c'+idx,d.n);
+      else if(d.t==='p')send(conn,{t:'q',ts:d.ts});
+    });
+    return;
+  }
+  var slot=-1;for(var a=0;a<3;a++)if(!S.sl[a]){slot=a;break}
+  if(slot<0){conn.on('open',function(){send(conn,{t:'full'});setTimeout(function(){safe(function(){conn.close()})},400)});return}
+  var me={ctl:conn,str:null,rd:false,rtt:null,id:conn.peer};
+  S.sl[slot]=me;
+  conn.on('open',function(){send(conn,{t:'hi',slot:slot});pushRoster()});
+  conn.on('data',function(d){
+    if(!d)return;
+    if(d.t==='rd'){me.rd=!!d.v;pushRoster()}
+    else if(d.t==='r'&&typeof d.v==='number'){me.rtt=Math.round(d.v);pushRoster()}
+  });
+  var gone=function(){
+    if(S.sl[slot]===me){S.sl[slot]=null;if(me.str)safe(function(){me.str.close()});pushRoster()}
+  };
+  conn.on('close',gone);conn.on('error',gone);
+}
+function hostStream(){
+  if(tH)return;
+  tH=setInterval(function(){
+    tk++;
+    for(var i=0;i<3;i++){var s=S.sl[i];if(s&&s.str)send(s.str,{t:'s',n:tk,pad:PAD_H})}
+  },33);
+}
+function toggleTest(){
+  if(!S.host)return;
+  S.test=!S.test;
+  if(S.test){resetMeters();tk=0;hostStream()}
+  else if(tH){clearInterval(tH);tH=null}
+  pushRoster();paint();
+}
+function makeHost(tries){
+  var code=String(1000+Math.floor(Math.random()*9000));
+  var p=makePeer(PFX+code);
+  S.peer=p;
+  var done=false;
+  p.on('open',function(){
+    L('親機: 仲介サーバーに登録 '+code);
+    done=true;S.host=true;S.code=code;S.link='open';S.busy=false;S.err='';
+    S.sl=[null,null,null];S.ro=[{on:0},{on:0},{on:0}];S.test=false;
+    go('room');
+  });
+  p.on('connection',hostIncoming);
+  p.on('disconnected',function(){S.link='down';schedule();if(!p.destroyed)safe(function(){p.reconnect()})});
+  p.on('error',function(e){
+    var ty=e&&e.type;L('親機: エラー '+(ty||'?'));
+    if(ty==='unavailable-id'&&tries>0&&!done){safe(function(){p.destroy()});makeHost(tries-1);return}
+    if(!done){S.busy=false;S.err='部屋をつくれませんでした ('+(ty||'error')+')。もう一度試してください。';safe(function(){p.destroy()});go('title')}
+    else{S.link='down';schedule()}
+  });
+}
+
+/* ---------- 生存者 ---------- */
+function clientStart(code){
+  S.busy=true;S.err='';paintJoin();
+  var p=makePeer();S.peer=p;
+  var finished=false;L('生存者: 仲介サーバーに接続中');
+  var fail=function(msg){
+    if(finished)return;finished=true;clearTimeout(tmo);S.busy=false;S.err=msg;
+    safe(function(){p.destroy()});S.peer=null;S.ctl=null;S.str=null;S.link='off';go('join');
+  };
+  p.on('error',function(e){
+    var ty=e&&e.type;L('生存者: エラー '+(ty||'?'));
+    if(finished&&S.view==='room'){S.link='down';schedule();return}
+    fail(ty==='peer-unavailable'?'その番号の部屋が見つかりません。番号を確認してください。':'つなげませんでした ('+(ty||'error')+')。もう一度試してください。');
+  });
+  p.on('open',function(){
+    L('生存者: 仲介サーバーに登録、部屋 '+code+' へ接続を依頼');
+    var ctl=p.connect(PFX+code,{reliable:true,metadata:{k:'ctl'}});
+    S.ctl=ctl;watch(ctl,'生存者ctl');
+    tmo=setTimeout(function(){fail('部屋から返事がありません。下の通信ログを確認してください。')},25000);
+    ctl.on('open',function(){});
+    ctl.on('data',function(d){
+      if(!d)return;
+      if(d.t==='full'){fail('この部屋は満員です。');return}
+      if(d.t==='hi'){
+        if(finished)return;finished=true;clearTimeout(tmo);
+        S.busy=false;S.host=false;S.code=code;S.slot=d.slot;S.link='open';S.ready=false;S.test=false;
+        S.rtt=null;S.ema=null;resetMeters();S.ro=[{on:0},{on:0},{on:0}];
+        L('生存者: 入室OK 席'+(d.slot+1));
+        S.str=p.connect(PFX+code,{reliable:false,metadata:{k:'str'}});watch(S.str,'生存者str');
+        S.str.on('data',strData);
+        S.str.on('open',startPing);
+        go('room');
+      }else if(d.t==='ro'){
+        S.ro=d.s;
+        var was=S.test;S.test=!!d.test;
+        if(S.test&&!was){resetMeters();ct=0;clientStream()}
+        else if(!S.test&&was&&tC){clearInterval(tC);tC=null}
+        schedule();
+      }
+    });
+    var lost=function(){if(S.view==='room'){S.link='down';stopAll(true);schedule()}else fail('部屋との通信が切れました。')};
+    ctl.on('close',lost);ctl.on('error',lost);
+  });
+  p.on('disconnected',function(){if(S.view==='room'){S.link='down';schedule()}});
+}
+function strData(d){
+  if(!d)return;
+  if(d.t==='s'&&typeof d.n==='number')tick('h',d.n);
+  else if(d.t==='q'&&typeof d.ts==='number'){
+    var r=performance.now()-d.ts;
+    S.ema=S.ema==null?r:S.ema*.7+r*.3;
+    var v=Math.round(S.ema);
+    if(v!==S.rtt){S.rtt=v;send(S.ctl,{t:'r',v:v});schedule()}
+  }
+}
+function startPing(){
+  if(tP)return;
+  tP=setInterval(function(){send(S.str,{t:'p',ts:performance.now()})},1000);
+}
+function clientStream(){
+  if(tC)return;
+  tC=setInterval(function(){ct++;send(S.str,{t:'c',n:ct,pad:PAD_C})},33);
+}
+
+/* ---------- 共通 ---------- */
+function stopAll(keepPeer){
+  if(tH){clearInterval(tH);tH=null}
+  if(tC){clearInterval(tC);tC=null}
+  if(tP){clearInterval(tP);tP=null}
+  if(!keepPeer&&S.peer){var p=S.peer;S.peer=null;safe(function(){p.destroy()})}
+}
+function leave(){
+  stopAll(false);clearTimeout(tmo);
+  S.sl=[null,null,null];S.ro=[{on:0},{on:0},{on:0}];S.slot=-1;S.ctl=null;S.str=null;
+  S.test=false;S.ready=false;S.link='off';S.host=false;S.busy=false;S.err='';
+  go('title');
+}
+
+/* ---------- 操作 ---------- */
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('[data-act]');if(!b||b.disabled)return;
+  var a=b.getAttribute('data-act');
+  if(a==='host'){if(S.busy)return;S.busy=true;S.err='';paint();makeHost(6)}
+  else if(a==='join'){S.err='';go('join')}
+  else if(a==='back')go('title');
+  else if(a==='entercode'){
+    if(S.busy)return;
+    var v=(($('#codein')||{}).value||'').trim();S.codeIn=v;
+    if(!/^\d{4}$/.test(v)){S.err='4桁の番号を入れてください。';paintJoin();return}
+    clientStart(v);
+  }
+  else if(a==='ready'){S.ready=!S.ready;send(S.ctl,{t:'rd',v:S.ready});paintCtl()}
+  else if(a==='test')toggleTest();
+  else if(a==='relay'){S.relay=!S.relay;paint()}
+  else if(a==='leave')leave();
+});
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='codein'){e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);S.codeIn=e.target.value}
+});
+setInterval(function(){if(S.view==='room'){paintRoster();paintNet()}paintLog()},500);
+window.addEventListener('pagehide',function(){stopAll(false)});
+
+go('title');
+})();
+</script>
+</body>
+</html>
